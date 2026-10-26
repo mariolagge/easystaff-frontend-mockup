@@ -1,0 +1,55 @@
+name: agri-fleet-analytics
+
+services:
+  database:
+    image: postgres:alpine
+    container_name: postgres
+    ports:
+      - '127.0.0.1:5432:5432'
+    volumes:
+      - database-data:/var/lib/postgresql
+      - ./database-script.sql:/docker-entrypoint-initdb.d/database-script.sql:ro
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=agri-fleet-analytics-db
+    deploy:
+      resources:
+        limits:
+          memory: 384m
+
+  rabbitmq:
+    image: rabbitmq:management-alpine
+    container_name: rabbitmq
+    ports:
+      - '127.0.0.1:5672:5672'
+      - '127.0.0.1:15672:15672'
+    environment:
+      RABBITMQ_DEFAULT_PASS: admin
+      RABBITMQ_DEFAULT_USER: admin
+    volumes:
+      - rabbitmq-lib:/var/lib/rabbitmq/
+      - rabbitmq-log:/var/log/rabbitmq
+
+  web:
+    image: nginx:stable-alpine3.23-perl
+    container_name: nginx_web
+    restart: always
+    ports:
+      - "127.0.0.1:${NGINX_PORT:-8080}:80"
+    volumes:
+      - ../frontend:/usr/share/nginx/html:ro
+      - ./nginx-conf/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    deploy:
+      resources:
+        limits:
+          memory: 64m
+
+volumes:
+  database-data:
+  rabbitmq-lib:
+    driver: local
+  rabbitmq-log:
+    driver: local

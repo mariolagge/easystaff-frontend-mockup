@@ -1,0 +1,199 @@
+[
+  {
+    "figure": 1,
+    "caption": "Figure 1: Decomposition of „Match Talents“",
+    "media_file": "word/media/image1.png",
+    "extractable": true,
+    "composite": false,
+    "overlay_texts": [],
+    "reuses_media_of_figure": null
+  },
+  {
+    "figure": 2,
+    "caption": "Figure 2: IGOE diagram of “Match Talents”",
+    "media_file": "word/media/image2.png",
+    "extractable": true,
+    "composite": false,
+    "overlay_texts": [],
+    "reuses_media_of_figure": null
+  },
+  {
+    "figure": 3,
+    "caption": "Figure 3: PCDM diagram of “Match Talents”",
+    "media_file": "word/media/image3.png",
+    "extractable": true,
+    "composite": false,
+    "overlay_texts": [],
+    "reuses_media_of_figure": null
+  },
+  {
+    "figure": 4,
+    "caption": "Figure 4: As-Is draft process model of \"Match Talents\"",
+    "media_file": "word/media/image4.png",
+    "extractable": true,
+    "composite": false,
+    "overlay_texts": [],
+    "reuses_media_of_figure": null
+  },
+  {
+    "figure": 5,
+    "caption": "Figure 5: Findings of process model quality assurance of \"Match Talents\"",
+    "media_file": "word/media/image4.png",
+    "extractable": true,
+    "composite": true,
+    "overlay_texts": [
+      "7",
+      "2,3",
+      "1, 2, 3, 5, 6",
+      "4",
+      "1",
+      "7"
+    ],
+    "reuses_media_of_figure": 4
+  },
+  {
+    "figure": 6,
+    "caption": "Figure 6: As-Is final process model of \"Match Talents\"",
+    "media_file": "word/media/image5.png",
+    "extractable": true,
+    "composite": false,
+    "overlay_texts": [],
+    "reuses_media_of_figure": null
+  },
+  {
+    "figure": 7,
+    "caption": "Figure 7: Average cycle times of as-is process model",
+    "media_file": "word/media/image5.png",
+    "extractable": true,
+    "composite": true,
+    "overlay_texts": [
+      "0.125 days",
+      "0.25 days",
+      "2 days",
+      "0.125 days",
+      "0.5 days",
+      "0.125 days",
+      "0.25 days",
+      "2 days",
+      "0.25 days",
+      "r = 20%",
+      "(1 – r) = 80%"
+    ],
+    "reuses_media_of_figure": 6
+  },
+  {
+    "figure": 8,
+    "caption": "Figure 8: Processing times of as-is process model",
+    "media_file": "word/media/image5.png",
+    "extractable": true,
+    "composite": true,
+    "overlay_texts": [
+      "(1 – r) = 80%",
+      "0.5 h",
+      "0.5 h",
+      "0.25 h",
+      "0.5 h",
+      "1.5 h",
+      "0.5 h",
+      "0.5 h",
+      "0.25 h",
+      "0.5 h",
+      "r = 20%"
+    ],
+    "reuses_media_of_figure": 6
+  },
+  {
+    "figure": 9,
+    "caption": "Figure 9: Simulation 1 - Waiting time heatmap with 10 customer requests per week",
+    "media_file": "word/media/image6.png",
+    "extractable": true,
+    "composite": false,
+    "overlay_texts": [],
+    "reuses_media_of_figure": null
+  },
+  {
+    "figure": 10,
+    "caption": "Figure 10: Simulation 2 - Waiting time heatmap with 40 customer requests per week",
+    "media_file": "word/media/image7.png",
+    "extractable": true,
+    "composite": false,
+    "overlay_texts": [],
+    "reuses_media_of_figure": null
+  },
+  {
+    "figure": 11,
+    "caption": "Figure 11: Simulation 1 - Total Cycle time with 10 customer requests per week",
+    "media_file": "word/media/image8.png",
+    "extractable": true,
+    "composite": false,
+    "overlay_texts": [],
+    "reuses_media_of_figure": null
+  },
+  {
+    "figure": 12,
+    "caption": "Figure 12: Simulation 2 - Total Cycle time with 40 customer requests per week",
+    "media_file": "word/media/image9.png",
+    "extractable": true,
+    "composite": false,
+    "overlay_texts": [],
+    "reuses_media_of_figure": null
+  },
+  {
+    "figure": 13,
+    "caption": "Figure 13: Simulation 1 - Total processing time with 10 customer requests per week",
+    "media_file": "word/media/image10.png",
+    "extractable": true,
+    "composite": false,
+    "overlay_texts": [],
+    "reuses_media_of_figure": null
+  },
+  {
+    "figure": 14,
+    "caption": "Figure 14: Simulation 2 - Total processing time with 40 customer requests per week",
+    "media_file": "word/media/image11.png",
+    "extractable": true,
+    "composite": false,
+    "overlay_texts": [],
+    "reuses_media_of_figure": null
+  },
+  {
+    "figure": 15,
+    "caption": "Figure 15: To-Be process model of \"Match Talents\"",
+    "media_file": "word/media/image12.png",
+    "extractable": true,
+    "composite": true,
+    "overlay_texts": [
+      "(Change 2)",
+      "(Change 2)",
+      "(Change 1)"
+    ],
+    "reuses_media_of_figure": null
+  },
+  {
+    "figure": 16,
+    "caption": "Figure 16: Devil’s Quadrangle Issue 1 - Case-based work",
+    "media_file": "word/media/image13.png",
+    "extractable": true,
+    "composite": false,
+    "overlay_texts": [],
+    "reuses_media_of_figure": null
+  },
+  {
+    "figure": 17,
+    "caption": "Figure 17: Devil’s Quadrangle Issue 2 – Activity Elimination (Manual HR administration)",
+    "media_file": "word/media/image14.png",
+    "extractable": true,
+    "composite": false,
+    "overlay_texts": [],
+    "reuses_media_of_figure": null
+  },
+  {
+    "figure": 18,
+    "caption": "Figure 18: Devil’s Quadrangle Issue 3 – Activity Elimination (Requirement handover)",
+    "media_file": "word/media/image15.png",
+    "extractable": true,
+    "composite": false,
+    "overlay_texts": [],
+    "reuses_media_of_figure": null
+  }
+]

@@ -1,0 +1,9 @@
+{
+  "read_only_files": {
+    "Process_Manual_easystaff_V1.docx": "6ebbcd9a7b95b10a629ef05a3ee569bf2f3b60f0793270895fb3b19dc8d8e8f7",
+    "BPM_Manual_easystaff_V1.docx": "32175a5cf7dc19bd2535d3c89f7bb68c3bafe3358e17dd2b132ff04586b39f4b",
+    "Simulation1_easystaff_MatchTalents_10requestsPerWeek.bpmn": "a99478501d4813116778179521b20af0f8ab7f748613c2ed0030b3ad00d9f05f",
+    "Simulation2_easystaff_MatchTalents_40requestsPerWeek.bpmn": "78b0ea0f181541d136a0cb16db8016937b250482ac4f0288365f063a54ef91ff"
+  },
+  "mockup": []
+}

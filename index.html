@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Match Talents Platform — concept mockup</title>
+  <meta name="description" content="Clickable concept mockup of the To-Be 'Match Talents' process: one staffing order from request to briefed team." />
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="css/style.css" />
+  <script type="module" src="js/pages/start.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="app">
+    <header id="site-header"></header>
+
+    <main id="main" tabindex="-1">
+      <section class="card hero" aria-labelledby="hero-title">
+        <p class="eyebrow">Case study “Match Talents” · To-Be process</p>
+        <h1 class="hero-title" id="hero-title">Match Talents Platform <span>— concept mockup</span></h1>
+        <p class="hero-text">
+          Today a staffing order travels by e-mail: Sales copies the client's request into the CRM,
+          HR writes to every talent and waits for replies, then e-mails the client and waits again.
+          Most of the cycle time is waiting. On the platform, the client and the talents answer
+          directly, and HR sees every order's status in one place.
+        </p>
+        <p class="hero-kpi" id="kpi-line"></p>
+        <div class="btn-row">
+          <a class="btn btn-primary btn-lg" href="request.html">
+            Start demo <span data-tabler-icon="arrow-right" data-tabler-size="16"></span>
+          </a>
+          <button type="button" class="btn btn-lg" id="reset-btn">
+            <span data-tabler-icon="rotate-clockwise" data-tabler-size="16"></span> Reset demo
+          </button>
+        </div>
+        <p class="sr-only" id="reset-status" aria-live="polite"></p>
+      </section>
+
+      <div class="start-grid">
+        <div class="stack">
+          <section class="card" aria-labelledby="progress-title">
+            <div class="card-header">
+              <h2 class="card-title" id="progress-title">
+                <span data-tabler-icon="history" data-tabler-size="14"></span> Demo progress
+              </h2>
+              <span class="card-meta" id="progress-meta"></span>
+            </div>
+            <div class="card-body">
+              <ol class="progress-steps" id="progress-steps"></ol>
+            </div>
+          </section>
+
+          <section class="card" aria-labelledby="roles-title">
+            <div class="card-header">
+              <h2 class="card-title" id="roles-title">
+                <span data-tabler-icon="users" data-tabler-size="14"></span> Three roles, one order
+              </h2>
+            </div>
+            <div class="card-body">
+              <ul class="role-cards">
+                <li>
+                  <a class="role-card" href="request.html">
+                    <span class="role-chip"><span data-tabler-icon="briefcase" data-tabler-size="18"></span></span>
+                    <span class="role-card-text">
+                      <span class="role-card-title">Client — request staff &amp; approve the team</span>
+                      <span class="role-card-sub">Desktop · Screens 1 and 3</span>
+                    </span>
+                    <span data-tabler-icon="chevron-right" data-tabler-size="16"></span>
+                  </a>
+                </li>
+                <li>
+                  <a class="role-card" href="availability.html">
+                    <span class="role-chip role-chip-talent"><span data-tabler-icon="device-mobile" data-tabler-size="18"></span></span>
+                    <span class="role-card-text">
+                      <span class="role-card-title">Talent — accept or decline within 24 h</span>
+                      <span class="role-card-sub">Smartphone · Screen 2</span>
+                    </span>
+                    <span data-tabler-icon="chevron-right" data-tabler-size="16"></span>
+                  </a>
+                </li>
+                <li>
+                  <a class="role-card" href="dashboard.html">
+                    <span class="role-chip role-chip-hr"><span data-tabler-icon="layout-dashboard" data-tabler-size="18"></span></span>
+                    <span class="role-card-text">
+                      <span class="role-card-title">HR — move the order forward, no Excel lists</span>
+                      <span class="role-card-sub">Desktop · Screen 4</span>
+                    </span>
+                    <span data-tabler-icon="chevron-right" data-tabler-size="16"></span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </div>
+
+        <div class="stack">
+          <section class="card" id="disclaimer" aria-labelledby="disclaimer-title" tabindex="-1">
+            <div class="card-header">
+              <h2 class="card-title" id="disclaimer-title">
+                <span data-tabler-icon="info-circle" data-tabler-size="14"></span> Disclaimer
+              </h2>
+            </div>
+            <div class="card-body prose">
+              <p><strong>This is a concept mockup, not a product.</strong> It shows a proposed process
+                redesign from a university case study about the staffing agency easystaff.</p>
+              <ul>
+                <li>All people, clients and addresses are fictional (e.g. “Demo Client GmbH”, “Talent A (demo)”).</li>
+                <li>There is no backend, login, e-mail or push notification. Everything is stored in your browser only.</li>
+                <li>Talents are selected by HR by hand, as in the To-Be model — there is no matching algorithm.</li>
+                <li>Not affiliated with easystaff; no easystaff logo, colours or screenshots are used.</li>
+              </ul>
+            </div>
+          </section>
+
+          <section class="card" aria-labelledby="how-title">
+            <div class="card-header">
+              <h2 class="card-title" id="how-title">
+                <span data-tabler-icon="clipboard-check" data-tabler-size="14"></span> How to click through
+              </h2>
+            </div>
+            <div class="card-body prose">
+              <p>Use the role switcher at the top. A <span class="sr-only">yellow</span> dot marks the screen
+                with the next step. Open the talent and HR screens in two tabs to watch answers arrive live.</p>
+              <p><a id="readme-link" href="#">Project README on GitHub</a></p>
+            </div>
+          </section>
+        </div>
+      </div>
+    </main>
+
+    <footer class="site-footer">Concept mockup – no real data. Runs entirely in your browser.</footer>
+  </div>
+</body>
+</html>

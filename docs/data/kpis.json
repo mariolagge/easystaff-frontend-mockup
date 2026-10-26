@@ -1,0 +1,413 @@
+{
+  "method": "Flow analysis; rework block divided by (1 - r); 1 working day = 8 h; cost = processing time x hourly rate",
+  "rates_eur_per_h": {
+    "Sales": 40.0,
+    "Human resources": 50.0
+  },
+  "rates_source": "docs/data/simulation_results.json",
+  "as_is": {
+    "cycle_time_working_days": 6.875,
+    "cycle_time_h": 55.0,
+    "processing_time_h": 5.875,
+    "cte": 0.10681818181818181,
+    "cost_eur": 288.75,
+    "rework_probability": 0.2
+  },
+  "to_be": {
+    "cycle_time_working_days": 3.305555555555556,
+    "cycle_time_h": 26.444444444444446,
+    "processing_time_h": 3.25,
+    "cte": 0.12289915966386554,
+    "cost_eur": 162.5,
+    "rework_probability": 0.1
+  },
+  "change": {
+    "cycle_time_pct": -0.5191919191919192,
+    "processing_time_pct": -0.44680851063829785,
+    "cost_pct": -0.4372294372294372,
+    "cte_pp": 1.6080977845683728
+  },
+  "tasks": {
+    "as_is": [
+      {
+        "block": 1,
+        "task": "Create requirements list",
+        "ct_working_days": 0.25,
+        "pt_hours": 0.5,
+        "resource": "Sales",
+        "reason": ""
+      },
+      {
+        "block": 2,
+        "task": "Search suitable talents",
+        "ct_working_days": 0.5,
+        "pt_hours": 1.5,
+        "resource": "Human resources",
+        "reason": ""
+      },
+      {
+        "block": 2,
+        "task": "Check availability",
+        "ct_working_days": 0.125,
+        "pt_hours": 0.5,
+        "resource": "Human resources",
+        "reason": ""
+      },
+      {
+        "block": 2,
+        "task": "Received availability response (incl. waiting)",
+        "ct_working_days": 2.0,
+        "pt_hours": 0.25,
+        "resource": "Human resources",
+        "reason": ""
+      },
+      {
+        "block": 2,
+        "task": "Create final talents list",
+        "ct_working_days": 0.25,
+        "pt_hours": 0.5,
+        "resource": "Human resources",
+        "reason": ""
+      },
+      {
+        "block": 2,
+        "task": "Request customer approval",
+        "ct_working_days": 0.125,
+        "pt_hours": 0.5,
+        "resource": "Human resources",
+        "reason": ""
+      },
+      {
+        "block": 2,
+        "task": "Received approval decision (incl. waiting)",
+        "ct_working_days": 2.0,
+        "pt_hours": 0.25,
+        "resource": "Human resources",
+        "reason": ""
+      },
+      {
+        "block": 3,
+        "task": "Book talents",
+        "ct_working_days": 0.25,
+        "pt_hours": 0.5,
+        "resource": "Human resources",
+        "reason": ""
+      },
+      {
+        "block": 3,
+        "task": "Send briefings",
+        "ct_working_days": 0.125,
+        "pt_hours": 0.5,
+        "resource": "Human resources",
+        "reason": ""
+      }
+    ],
+    "to_be": [
+      {
+        "block": 1,
+        "task": "Validate requirements list",
+        "replaces": "Create requirements list (Sales)",
+        "ct_working_days": 0.0625,
+        "pt_hours": 0.25,
+        "resource": "Human resources",
+        "reason": "Customer submits a structured form; HR only checks completeness (Sales step removed)"
+      },
+      {
+        "block": 2,
+        "task": "Search suitable talents",
+        "replaces": "Search suitable talents",
+        "ct_working_days": 0.5,
+        "pt_hours": 1.5,
+        "resource": "Human resources",
+        "reason": "Unchanged (no claim of automated matching)"
+      },
+      {
+        "block": 2,
+        "task": "Request availability",
+        "replaces": "Check availability",
+        "ct_working_days": 0.0625,
+        "pt_hours": 0.25,
+        "resource": "Human resources",
+        "reason": "One bulk request via the platform instead of individual e-mails"
+      },
+      {
+        "block": 2,
+        "task": "Check availability response",
+        "replaces": "Received availability response (incl. waiting)",
+        "ct_working_days": 1.0,
+        "pt_hours": 0.0,
+        "resource": "Human resources",
+        "reason": "24 h response deadline in the talent app (confirmed by owner); answer is recorded automatically"
+      },
+      {
+        "block": 2,
+        "task": "Create final talents list",
+        "replaces": "Create final talents list",
+        "ct_working_days": 0.125,
+        "pt_hours": 0.25,
+        "resource": "Human resources",
+        "reason": "System pre-selects confirmed talents"
+      },
+      {
+        "block": 2,
+        "task": "Request customer approval",
+        "replaces": "Request customer approval",
+        "ct_working_days": 0.0625,
+        "pt_hours": 0.25,
+        "resource": "Human resources",
+        "reason": "One click in the platform"
+      },
+      {
+        "block": 2,
+        "task": "Check approval decision",
+        "replaces": "Received approval decision (incl. waiting)",
+        "ct_working_days": 1.0,
+        "pt_hours": 0.0,
+        "resource": "Human resources",
+        "reason": "Approval SLA of 1 working day; recorded automatically"
+      },
+      {
+        "block": 3,
+        "task": "Book talents",
+        "replaces": "Book talents",
+        "ct_working_days": 0.125,
+        "pt_hours": 0.25,
+        "resource": "Human resources",
+        "reason": "Booking from the approved list"
+      },
+      {
+        "block": 3,
+        "task": "Send briefings",
+        "replaces": "Send briefings",
+        "ct_working_days": 0.0625,
+        "pt_hours": 0.25,
+        "resource": "Human resources",
+        "reason": "Briefings generated from case data; HR reviews"
+      }
+    ]
+  },
+  "rendered": {
+    "en": {
+      "cycle_time_as_is": "6.9 working days",
+      "processing_time_as_is": "5.9 h",
+      "cte_as_is": "11 %",
+      "cost_as_is": "289 EUR",
+      "cycle_time_to_be": "3.3 working days",
+      "processing_time_to_be": "3.3 h",
+      "cte_to_be": "12 %",
+      "cost_to_be": "163 EUR",
+      "cycle_time_change": "−52 %",
+      "processing_time_change": "−45 %",
+      "cost_change": "−44 %",
+      "cte_change_pp": "+1 pp",
+      "rework_as_is": "20 %",
+      "rework_to_be": "10 %",
+      "goal_cycle_time": "≤ 3.5 working days",
+      "goal_manual_effort": "−30 %",
+      "goal_error_rate": "< 5 %",
+      "sim1_requests_per_week": "10",
+      "sim1_cycle_time": "6.8 calendar days",
+      "sim1_processing_time": "5.6 h",
+      "sim1_cost": "277 EUR",
+      "sim1_hr_utilization": "9 %",
+      "sim2_requests_per_week": "40",
+      "sim2_cycle_time": "6.8 calendar days",
+      "sim2_processing_time": "7.9 h",
+      "sim2_cost": "280 EUR",
+      "sim2_hr_utilization": "27 %"
+    },
+    "de": {
+      "cycle_time_as_is": "6,9 Arbeitstage",
+      "processing_time_as_is": "5,9 h",
+      "cte_as_is": "11 %",
+      "cost_as_is": "289 EUR",
+      "cycle_time_to_be": "3,3 Arbeitstage",
+      "processing_time_to_be": "3,3 h",
+      "cte_to_be": "12 %",
+      "cost_to_be": "163 EUR",
+      "cycle_time_change": "−52 %",
+      "processing_time_change": "−45 %",
+      "cost_change": "−44 %",
+      "cte_change_pp": "+1 Prozentpunkt",
+      "rework_as_is": "20 %",
+      "rework_to_be": "10 %",
+      "goal_cycle_time": "≤ 3,5 Arbeitstage",
+      "goal_manual_effort": "−30 %",
+      "goal_error_rate": "< 5 %",
+      "sim1_requests_per_week": "10",
+      "sim1_cycle_time": "6,8 Kalendertage",
+      "sim1_processing_time": "5,6 h",
+      "sim1_cost": "277 EUR",
+      "sim1_hr_utilization": "9 %",
+      "sim2_requests_per_week": "40",
+      "sim2_cycle_time": "6,8 Kalendertage",
+      "sim2_processing_time": "7,9 h",
+      "sim2_cost": "280 EUR",
+      "sim2_hr_utilization": "27 %"
+    }
+  },
+  "assumptions": [
+    {
+      "task": "Validate requirements list",
+      "replaces": "Create requirements list (Sales)",
+      "as_is": {
+        "ct_working_days": 0.25,
+        "pt_hours": 0.5,
+        "resource": "Sales"
+      },
+      "to_be": {
+        "ct_working_days": 0.0625,
+        "pt_hours": 0.25,
+        "resource": "Human resources"
+      },
+      "reason": "Customer submits a structured form; HR only checks completeness (Sales step removed)"
+    },
+    {
+      "task": "Search suitable talents",
+      "replaces": "Search suitable talents",
+      "as_is": {
+        "ct_working_days": 0.5,
+        "pt_hours": 1.5,
+        "resource": "Human resources"
+      },
+      "to_be": {
+        "ct_working_days": 0.5,
+        "pt_hours": 1.5,
+        "resource": "Human resources"
+      },
+      "reason": "Unchanged (no claim of automated matching)"
+    },
+    {
+      "task": "Request availability",
+      "replaces": "Check availability",
+      "as_is": {
+        "ct_working_days": 0.125,
+        "pt_hours": 0.5,
+        "resource": "Human resources"
+      },
+      "to_be": {
+        "ct_working_days": 0.0625,
+        "pt_hours": 0.25,
+        "resource": "Human resources"
+      },
+      "reason": "One bulk request via the platform instead of individual e-mails"
+    },
+    {
+      "task": "Check availability response",
+      "replaces": "Received availability response (incl. waiting)",
+      "as_is": {
+        "ct_working_days": 2.0,
+        "pt_hours": 0.25,
+        "resource": "Human resources"
+      },
+      "to_be": {
+        "ct_working_days": 1.0,
+        "pt_hours": 0.0,
+        "resource": "Human resources"
+      },
+      "reason": "24 h response deadline in the talent app (confirmed by owner); answer is recorded automatically"
+    },
+    {
+      "task": "Create final talents list",
+      "replaces": "Create final talents list",
+      "as_is": {
+        "ct_working_days": 0.25,
+        "pt_hours": 0.5,
+        "resource": "Human resources"
+      },
+      "to_be": {
+        "ct_working_days": 0.125,
+        "pt_hours": 0.25,
+        "resource": "Human resources"
+      },
+      "reason": "System pre-selects confirmed talents"
+    },
+    {
+      "task": "Request customer approval",
+      "replaces": "Request customer approval",
+      "as_is": {
+        "ct_working_days": 0.125,
+        "pt_hours": 0.5,
+        "resource": "Human resources"
+      },
+      "to_be": {
+        "ct_working_days": 0.0625,
+        "pt_hours": 0.25,
+        "resource": "Human resources"
+      },
+      "reason": "One click in the platform"
+    },
+    {
+      "task": "Check approval decision",
+      "replaces": "Received approval decision (incl. waiting)",
+      "as_is": {
+        "ct_working_days": 2.0,
+        "pt_hours": 0.25,
+        "resource": "Human resources"
+      },
+      "to_be": {
+        "ct_working_days": 1.0,
+        "pt_hours": 0.0,
+        "resource": "Human resources"
+      },
+      "reason": "Approval SLA of 1 working day; recorded automatically"
+    },
+    {
+      "task": "Book talents",
+      "replaces": "Book talents",
+      "as_is": {
+        "ct_working_days": 0.25,
+        "pt_hours": 0.5,
+        "resource": "Human resources"
+      },
+      "to_be": {
+        "ct_working_days": 0.125,
+        "pt_hours": 0.25,
+        "resource": "Human resources"
+      },
+      "reason": "Booking from the approved list"
+    },
+    {
+      "task": "Send briefings",
+      "replaces": "Send briefings",
+      "as_is": {
+        "ct_working_days": 0.125,
+        "pt_hours": 0.5,
+        "resource": "Human resources"
+      },
+      "to_be": {
+        "ct_working_days": 0.0625,
+        "pt_hours": 0.25,
+        "resource": "Human resources"
+      },
+      "reason": "Briefings generated from case data; HR reviews"
+    },
+    {
+      "task": "Rework probability r",
+      "replaces": "Approval received? = NO",
+      "as_is": 0.2,
+      "to_be": 0.1,
+      "reason": "Structured input -> fewer clarification loops"
+    }
+  ],
+  "goals": [
+    {
+      "goal": "Cycle time",
+      "target": "<= 3.5 working days",
+      "to_be_value": 3.305555555555556,
+      "met": true
+    },
+    {
+      "goal": "Manual effort (processing time per case)",
+      "target": "-30%",
+      "to_be_value": -0.44680851063829785,
+      "met": true
+    },
+    {
+      "goal": "Error rate",
+      "target": "< 5 %",
+      "to_be_value": null,
+      "met": "not measured"
+    }
+  ]
+}
