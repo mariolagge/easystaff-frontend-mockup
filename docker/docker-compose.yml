@@ -1,10 +1,10 @@
-name: match-talents-platform
+name: easystaff-frontend-mockup
 
 services:
 
   web:
     image: nginx:stable-alpine3.23-perl
-    container_name: nginx_web-match-talents-platform
+    container_name: nginx_web-easystaff-frontend-mockup
     restart: always
     ports:
       - "127.0.0.1:${NGINX_PORT:-8080}:80"
