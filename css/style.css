@@ -39,6 +39,11 @@
   --stale: #8f897e;
   --stale-soft: rgba(143, 137, 126, 0.12);
 
+  /* Role chips on the start page: same weight, three hues outside green, amber, and brown. */
+  --role-client: #4e6478;
+  --role-talent: #5a5684;
+  --role-hr: #7d5d6a;
+
   --wash-top: #faf9f6;
   --wash-bottom: #f5f2ec;
 
@@ -969,11 +974,11 @@ fieldset[aria-invalid="true"] .checkbox-grid {
   display: grid;
   place-items: center;
   color: var(--on-color);
-  background: var(--accent);
+  background: var(--role-client);
 }
 
-.role-chip-talent { background: var(--good); }
-.role-chip-hr { background: #4a433c; }
+.role-chip-talent { background: var(--role-talent); }
+.role-chip-hr { background: var(--role-hr); }
 
 .role-card-text {
   flex: 1;
