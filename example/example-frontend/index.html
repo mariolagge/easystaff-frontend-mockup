@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AgriFleet Analytics</title>
+  <link rel="stylesheet" href="css/app.css" />
+</head>
+<body>
+  <div class="app">
+    <header>
+      <div class="brand">
+        <div class="logo">
+          <span data-tabler-icon="tractor" data-tabler-size="12" data-tabler-stroke="var(--on-color)"></span>
+        </div>
+        <div class="brand-text">
+          <h1>AgriFleet Analytics</h1>
+        </div>
+      </div>
+      <div class="header-meta">
+        <span data-tabler-icon="clock" data-tabler-size="12"></span>
+        <span id="generated-at">—</span>
+        <button type="button" class="btn btn-sm" id="refresh-btn">
+          <span data-tabler-icon="refresh" data-tabler-size="13"></span> Refresh
+        </button>
+      </div>
+    </header>
+
+    <div id="alert-placeholder"></div>
+
+    <div class="main">
+      <!-- FLEET METRIC STRIP -->
+      <div class="dashboard-stats">
+        <div class="metric-grid">
+          <div class="metric">
+            <div class="metric-icon"><span data-tabler-icon="alert-octagon" data-tabler-size="54"></span></div>
+            <div class="metric-body">
+              <div class="metric-row">
+                <span class="metric-label">Most urgent</span>
+                <span class="metric-value metric-value-sm" id="metric-urgent-name">—</span>
+              </div>
+              <div class="metric-row">
+                <span class="metric-label">Status</span>
+                <span class="metric-value metric-value-sm" id="metric-urgent-status">—</span>
+              </div>
+              <div class="metric-row">
+                <span class="metric-label">Active flags</span>
+                <span class="metric-value metric-value-sm" id="metric-urgent-flags">—</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="metric">
+            <div class="metric-icon"><span data-tabler-icon="chart-bar" data-tabler-size="54"></span></div>
+            <div class="metric-body">
+              <div class="metric-row">
+                <span class="metric-label">Critical</span>
+                <span class="metric-value" id="metric-count-critical">—</span>
+              </div>
+              <div class="metric-row">
+                <span class="metric-label">Watch</span>
+                <span class="metric-value" id="metric-count-watch">—</span>
+              </div>
+              <div class="metric-row">
+                <span class="metric-label">Good</span>
+                <span class="metric-value" id="metric-count-good">—</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="metric">
+            <div class="metric-icon"><span data-tabler-icon="gauge" data-tabler-size="54"></span></div>
+            <div class="metric-body">
+              <div class="metric-row">
+                <span class="metric-label">Avg utilization</span>
+                <span class="metric-value" id="metric-avg-utilization">—<span class="metric-unit">%</span></span>
+              </div>
+              <div class="metric-row">
+                <span class="metric-label">Avg productive share</span>
+                <span class="metric-value" id="metric-avg-productive">—<span class="metric-unit">%</span></span>
+              </div>
+              <div class="metric-row">
+                <span class="metric-label">Reporting</span>
+                <span class="metric-value" id="metric-reporting">—</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dashboard-top">
+        <!-- LEFT: FLEET RANKING (diagram + list) -->
+        <section class="card viz-card">
+          <div class="svg-wrap">
+            <svg class="viz-svg" id="fleet-svg" viewBox="0 0 1100 560" preserveAspectRatio="xMidYMid meet">
+              <defs>
+                <clipPath id="clip-pill-source" clipPathUnits="userSpaceOnUse">
+                  <rect x="-115" y="-54" width="230" height="108" rx="54" />
+                </clipPath>
+                <clipPath id="clip-pill-implement" clipPathUnits="userSpaceOnUse">
+                  <rect x="-105" y="-48" width="210" height="96" rx="48" />
+                </clipPath>
+              </defs>
+
+              <!-- Soft horizontal guide -->
+              <g opacity="0.28">
+                <line x1="60" y1="285" x2="1040" y2="285" stroke="var(--hairline)" stroke-width="1" stroke-dasharray="3 7" />
+              </g>
+
+              <!-- The tractor drives the three implements (SPEC §2) -->
+              <g id="fleet-links">
+                <path class="link-path" d="M 550 184 C 470 260, 300 300, 200 372" />
+                <path class="link-path" d="M 550 184 L 550 372" />
+                <path class="link-path" d="M 550 184 C 630 260, 800 300, 900 372" />
+              </g>
+
+              <g class="node-group node-tractor" data-asset-id="TRACTOR" transform="translate(550, 130)">
+                <rect class="node-select-ring" x="-121" y="-60" width="242" height="120" rx="60" />
+                <rect class="node-bg" x="-115" y="-54" width="230" height="108" rx="54" stroke-width="1.35" />
+                <circle class="node-icon-bg" cx="-61" cy="0" r="54" />
+                <rect class="node-accent" x="-115" y="-54" width="230" height="3.5" clip-path="url(#clip-pill-source)" />
+                <g data-tabler-icon="tractor" data-tabler-size="54" data-tabler-stroke="var(--on-color)" transform="translate(-88, -27)"></g>
+                <text class="node-label" x="10" y="-14">Tractor</text>
+                <text class="node-status" x="10" y="6">—</text>
+                <text class="node-value" x="10" y="26">—</text>
+                <circle class="node-rank-bg" cx="92" cy="-32" r="14" />
+                <text class="node-rank" x="92" y="-32">—</text>
+                <circle class="node-live-dot" cx="92" cy="30" r="5.5" />
+              </g>
+
+              <g class="node-group node-mower" data-asset-id="MOWER" transform="translate(200, 420)">
+                <rect class="node-select-ring" x="-111" y="-54" width="222" height="108" rx="54" />
+                <rect class="node-bg" x="-105" y="-48" width="210" height="96" rx="48" stroke-width="1.15" />
+                <circle class="node-icon-bg" cx="-57" cy="0" r="48" />
+                <rect class="node-accent" x="-105" y="-48" width="210" height="3" clip-path="url(#clip-pill-implement)" />
+                <g data-tabler-icon="blade" data-tabler-size="48" data-tabler-stroke="var(--on-color)" transform="translate(-81, -24)"></g>
+                <text class="node-label" x="8" y="-13">Mower</text>
+                <text class="node-status" x="8" y="5">—</text>
+                <text class="node-value" x="8" y="24">—</text>
+                <circle class="node-rank-bg" cx="84" cy="-28" r="13" />
+                <text class="node-rank" x="84" y="-28">—</text>
+                <circle class="node-live-dot" cx="84" cy="27" r="5" />
+              </g>
+
+              <g class="node-group node-baler" data-asset-id="BALER" transform="translate(550, 420)">
+                <rect class="node-select-ring" x="-111" y="-54" width="222" height="108" rx="54" />
+                <rect class="node-bg" x="-105" y="-48" width="210" height="96" rx="48" stroke-width="1.15" />
+                <circle class="node-icon-bg" cx="-57" cy="0" r="48" />
+                <rect class="node-accent" x="-105" y="-48" width="210" height="3" clip-path="url(#clip-pill-implement)" />
+                <g data-tabler-icon="barrel" data-tabler-size="48" data-tabler-stroke="var(--on-color)" transform="translate(-81, -24)"></g>
+                <text class="node-label" x="8" y="-13">Baler</text>
+                <text class="node-status" x="8" y="5">—</text>
+                <text class="node-value" x="8" y="24">—</text>
+                <circle class="node-rank-bg" cx="84" cy="-28" r="13" />
+                <text class="node-rank" x="84" y="-28">—</text>
+                <circle class="node-live-dot" cx="84" cy="27" r="5" />
+              </g>
+
+              <g class="node-group node-mixer" data-asset-id="MIXER" transform="translate(900, 420)">
+                <rect class="node-select-ring" x="-111" y="-54" width="222" height="108" rx="54" />
+                <rect class="node-bg" x="-105" y="-48" width="210" height="96" rx="48" stroke-width="1.15" />
+                <circle class="node-icon-bg" cx="-57" cy="0" r="48" />
+                <rect class="node-accent" x="-105" y="-48" width="210" height="3" clip-path="url(#clip-pill-implement)" />
+                <g data-tabler-icon="blender" data-tabler-size="48" data-tabler-stroke="var(--on-color)" transform="translate(-81, -24)"></g>
+                <text class="node-label" x="8" y="-13">Feed mixer</text>
+                <text class="node-status" x="8" y="5">—</text>
+                <text class="node-value" x="8" y="24">—</text>
+                <circle class="node-rank-bg" cx="84" cy="-28" r="13" />
+                <text class="node-rank" x="84" y="-28">—</text>
+                <circle class="node-live-dot" cx="84" cy="27" r="5" />
+              </g>
+            </svg>
+          </div>
+
+          <div class="fleet-ranking" id="fleet-ranking">
+            <div class="section-loading" id="fleet-ranking-loading">Loading fleet ranking…</div>
+          </div>
+        </section>
+
+        <!-- RIGHT: ASSET DETAIL -->
+        <aside class="card">
+          <div class="card-header">
+            <span class="card-title">
+              <span data-tabler-icon="tool" data-tabler-size="13"></span> Asset detail
+            </span>
+          </div>
+          <div class="card-body" id="asset-detail">
+            <div class="detail-empty">Select a machine in the fleet ranking.</div>
+          </div>
+        </aside>
+      </div>
+
+      <!-- DETAIL ROW -->
+      <div class="dashboard-details">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">
+              <span data-tabler-icon="activity" data-tabler-size="13"></span> Live telemetry
+            </span>
+          </div>
+          <div class="card-body-compact">
+            <div class="component-list" id="telemetry-strip">
+              <div class="section-loading">Loading live telemetry…</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">
+              <span data-tabler-icon="clock" data-tabler-size="13"></span> Rolling 24 h
+            </span>
+            <span class="card-meta" id="rolling-counters-asset">—</span>
+          </div>
+          <div class="card-body-compact">
+            <dl class="data-list" id="rolling-counters">
+              <div class="section-loading">No machine selected.</div>
+            </dl>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">
+              <span data-tabler-icon="hourglass" data-tabler-size="13"></span> Lifetime
+            </span>
+            <span class="card-meta" id="lifetime-counters-asset">—</span>
+          </div>
+          <div class="card-body-compact">
+            <dl class="data-list" id="lifetime-counters">
+              <div class="section-loading">No machine selected.</div>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HISTORY -->
+    <section class="data-section">
+      <details class="data-collapsible" open>
+        <summary class="data-collapsible-summary">
+          <span data-tabler-icon="history" data-tabler-size="14"></span> Hourly history
+        </summary>
+        <div class="card data-card">
+          <div class="card-body-compact">
+            <form id="history-form" class="history-form">
+              <div class="history-form-fields">
+                <label class="form-label" for="history-from">From</label>
+                <input type="datetime-local" class="form-input" id="history-from" required />
+                <label class="form-label" for="history-to">To</label>
+                <input type="datetime-local" class="form-input" id="history-to" required />
+                <label class="form-label" for="history-asset">Machine</label>
+                <select class="form-input" id="history-asset">
+                  <option value="">All machines</option>
+                  <option value="TRACTOR">Tractor</option>
+                  <option value="MOWER">Mower</option>
+                  <option value="BALER">Baler</option>
+                  <option value="MIXER">Feed mixer</option>
+                </select>
+              </div>
+              <button type="submit" class="btn btn-primary btn-sm">
+                <span data-tabler-icon="download" data-tabler-size="13"></span> Load
+              </button>
+            </form>
+
+            <div class="history-table-wrap">
+              <table class="history-table">
+                <thead>
+                  <tr>
+                    <th>Machine</th>
+                    <th>Hour</th>
+                    <th>Engine</th>
+                    <th>Working</th>
+                    <th>Transport</th>
+                    <th>Idle</th>
+                    <th>Loaded</th>
+                    <th>High load</th>
+                    <th>Temp excursion</th>
+                    <th>Vibration alert</th>
+                  </tr>
+                </thead>
+                <tbody id="history-body">
+                  <tr>
+                    <td colspan="10" class="history-empty">Choose a period and click Load.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </details>
+    </section>
+  </div>
+
+  <div class="tooltip" id="tooltip"></div>
+
+  <script src="js/icons.js"></script>
+  <script src="js/format.js"></script>
+  <script src="js/alert.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/fleet.js"></script>
+  <script src="js/asset.js"></script>
+  <script src="js/telemetry.js"></script>
+  <script src="js/history.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
