@@ -1,6 +1,8 @@
 /*
  * Design tokens carried over from example/example-frontend/css/app.css (warm stone base,
- * restrained indigo accent, muted status colours, soft shadows, radii). Changes:
+ * restrained accent, muted status colours, soft shadows, radii). Changes:
+ * - accent is a muted natural brown in place of the example's indigo;
+ * - --good is a muted sage in place of the example's teal;
  * - --text-tertiary and the *-text status colours are darker so small text meets WCAG AA;
  * - the type scale is larger, because this app has forms and reading text, not just figures.
  */
@@ -18,16 +20,17 @@
   --text-secondary: #5a554c;
   --text-tertiary: #6b655b;
 
-  --accent: #4a4780;
-  --accent-hover: #3f3c6e;
-  --accent-deep: #3a3868;
-  --accent-soft: rgba(74, 71, 128, 0.08);
-  --accent-border: rgba(74, 71, 128, 0.22);
+  --accent: #6b4f3a;
+  --accent-hover: #5a4030;
+  --accent-deep: #4a3528;
+  --accent-soft: rgba(107, 79, 58, 0.08);
+  --accent-border: rgba(107, 79, 58, 0.22);
 
   --on-color: #f8f7f4;
 
-  --good: #0d6b66;
-  --good-soft: rgba(13, 107, 102, 0.10);
+  --good: #3f5e49;
+  --good-hover: #334d3c;
+  --good-soft: rgba(63, 94, 73, 0.10);
   --watch: #b07d2a;
   --watch-text: #85591a;
   --watch-soft: rgba(176, 125, 42, 0.12);
@@ -47,7 +50,7 @@
   --radius-sm: 10px;
   --radius-xs: 6px;
 
-  --focus-ring: 0 0 0 3px rgba(74, 71, 128, 0.45);
+  --focus-ring: 0 0 0 3px rgba(107, 79, 58, 0.45);
 
   --font: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
 }
@@ -81,8 +84,8 @@ body::before {
   position: fixed;
   inset: 0;
   background:
-    radial-gradient(ellipse 90% 55% at 50% -15%, rgba(13, 107, 102, 0.035), transparent 55%),
-    radial-gradient(ellipse 50% 40% at 100% 5%, rgba(74, 71, 128, 0.025), transparent 50%);
+    radial-gradient(ellipse 90% 55% at 50% -15%, rgba(63, 94, 73, 0.035), transparent 55%),
+    radial-gradient(ellipse 50% 40% at 100% 5%, rgba(107, 79, 58, 0.025), transparent 50%);
   pointer-events: none;
   z-index: 0;
 }
@@ -233,7 +236,7 @@ a:hover {
 .nav-link[aria-current="page"] {
   background: var(--accent);
   color: var(--on-color);
-  box-shadow: 0 2px 10px rgba(74, 71, 128, 0.22);
+  box-shadow: 0 2px 10px rgba(107, 79, 58, 0.22);
 }
 
 .nav-link[aria-current="page"] .nav-role {
@@ -307,7 +310,7 @@ a:hover {
 .alert-good {
   background: var(--good-soft);
   color: var(--good);
-  border-color: rgba(13, 107, 102, 0.2);
+  border-color: rgba(63, 94, 73, 0.2);
 }
 
 .alert-info {
@@ -433,13 +436,13 @@ a:hover {
   background: var(--accent);
   color: var(--on-color);
   border-color: transparent;
-  box-shadow: 0 2px 10px rgba(74, 71, 128, 0.22);
+  box-shadow: 0 2px 10px rgba(107, 79, 58, 0.22);
 }
 
 .btn-primary:hover {
   background: var(--accent-hover);
   color: var(--on-color);
-  box-shadow: 0 3px 14px rgba(74, 71, 128, 0.28);
+  box-shadow: 0 3px 14px rgba(107, 79, 58, 0.28);
 }
 
 .btn-good {
@@ -449,7 +452,7 @@ a:hover {
 }
 
 .btn-good:hover {
-  background: #0a5955;
+  background: var(--good-hover);
   color: var(--on-color);
 }
 
@@ -867,7 +870,7 @@ fieldset[aria-invalid="true"] .checkbox-grid {
   padding: 28px 24px;
   margin-bottom: 18px;
   background:
-    radial-gradient(circle at 85% 20%, rgba(74, 71, 128, 0.07), transparent 55%),
+    radial-gradient(circle at 85% 20%, rgba(107, 79, 58, 0.07), transparent 55%),
     linear-gradient(180deg, var(--wash-top) 0%, var(--wash-bottom) 100%);
 }
 
@@ -970,7 +973,7 @@ fieldset[aria-invalid="true"] .checkbox-grid {
 }
 
 .role-chip-talent { background: var(--good); }
-.role-chip-hr { background: #6a5a8a; }
+.role-chip-hr { background: #4a433c; }
 
 .role-card-text {
   flex: 1;
@@ -1256,7 +1259,7 @@ fieldset[aria-invalid="true"] .checkbox-grid {
 
 .flow-wrap {
   background:
-    radial-gradient(circle at 50% 28%, rgba(13, 107, 102, 0.02), transparent 55%),
+    radial-gradient(circle at 50% 28%, rgba(63, 94, 73, 0.02), transparent 55%),
     linear-gradient(180deg, var(--wash-top) 0%, var(--wash-bottom) 100%);
   border-radius: 0 0 var(--radius) var(--radius);
   overflow: hidden;
@@ -1337,7 +1340,7 @@ fieldset[aria-invalid="true"] .checkbox-grid {
 .flow-node.is-done .node-dot { fill: var(--good); }
 .flow-node.is-done .node-num { fill: var(--on-color); }
 
-.flow-node.is-current .node-bg { stroke: var(--accent); stroke-width: 2.5; fill: #f5f4fa; }
+.flow-node.is-current .node-bg { stroke: var(--accent); stroke-width: 2.5; fill: #f3eee6; }
 .flow-node.is-current .node-dot { fill: var(--accent); }
 .flow-node.is-current .node-num { fill: var(--on-color); }
 .flow-node.is-current .node-ring { opacity: 1; }
@@ -1456,7 +1459,7 @@ fieldset[aria-invalid="true"] .checkbox-grid {
 }
 
 .talent-table tbody tr:hover td {
-  background: rgba(13, 107, 102, 0.03);
+  background: rgba(63, 94, 73, 0.03);
 }
 
 .talent-table tr.is-selected td:first-child {
