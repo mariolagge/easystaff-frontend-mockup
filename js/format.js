@@ -6,35 +6,22 @@ import { tablerIcon } from './icons.js';
 
 export const EM_DASH = '—';
 
-// label: badge text. task: the To-Be BPMN task(s) that lead into this status (SPEC §6).
-// tone: colour family of the badge.
+// task: the To-Be BPMN task name shown everywhere a status is labelled (SPEC §6).
+// Two tasks joined by " · " share one status. tone: colour family of the badge.
 export const STATUS_META = {
-  submitted: { label: 'Submitted', task: 'Client request received', tone: 'accent' },
-  validated: { label: 'Validated', task: 'Validate requirements list', tone: 'accent' },
+  submitted: { task: 'Client request received', tone: 'accent' },
+  validated: { task: 'Validate requirements list', tone: 'accent' },
   availability_requested: {
-    label: 'Availability requested', task: 'Search suitable talents · Request availability', tone: 'accent',
+    task: 'Search suitable talents · Request availability', tone: 'accent',
   },
-  responses_complete: { label: 'Responses complete', task: 'Check availability response', tone: 'accent' },
+  responses_complete: { task: 'Check availability response', tone: 'accent' },
   approval_requested: {
-    label: 'Approval requested', task: 'Create final talents list · Request customer approval', tone: 'accent',
+    task: 'Create final talents list · Request customer approval', tone: 'accent',
   },
-  approved: { label: 'Approved', task: 'Check approval decision (yes)', tone: 'good' },
-  booked: { label: 'Booked', task: 'Book talents', tone: 'good' },
-  briefed: { label: 'Briefings sent', task: 'Send briefings', tone: 'good' },
-  changes_requested: { label: 'Changes requested', task: 'Check approval decision (no)', tone: 'watch' },
-};
-
-// Short labels for the process-flow pills, where space is tight.
-export const STATUS_SHORT_LABELS = {
-  submitted: 'Submitted',
-  validated: 'Validated',
-  availability_requested: 'Availability',
-  responses_complete: 'Responses',
-  approval_requested: 'Approval',
-  approved: 'Approved',
-  booked: 'Booked',
-  briefed: 'Briefed',
-  changes_requested: 'Changes',
+  approved: { task: 'Check approval decision (yes)', tone: 'good' },
+  booked: { task: 'Book talents', tone: 'good' },
+  briefed: { task: 'Send briefings', tone: 'good' },
+  changes_requested: { task: 'Check approval decision (no)', tone: 'watch' },
 };
 
 export const AVAILABILITY_META = {
@@ -99,17 +86,18 @@ export function hoursLeft(isoInstant, deadlineHours) {
 }
 
 export function statusLabel(status) {
-  return status ? STATUS_META[status].label : 'No open order';
+  return status ? STATUS_META[status].task : 'No open order';
 }
 
-export function pillHtml(label, tone, icon = null) {
+export function pillHtml(label, tone, icon = null, extraClass = '') {
   const iconHtml = icon ? tablerIcon(icon, { size: 12 }) : '';
-  return `<span class="status-pill tone-${tone}">${iconHtml}${escapeHtml(label)}</span>`;
+  const classes = `status-pill tone-${tone}${extraClass ? ` ${extraClass}` : ''}`;
+  return `<span class="${classes}">${iconHtml}${escapeHtml(label)}</span>`;
 }
 
 export function statusPillHtml(status) {
   return status
-    ? pillHtml(STATUS_META[status].label, STATUS_META[status].tone)
+    ? pillHtml(STATUS_META[status].task, STATUS_META[status].tone, null, 'is-task')
     : pillHtml('No open order', 'stale');
 }
 

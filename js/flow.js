@@ -3,7 +3,7 @@
 // every state change.
 
 import { STATUSES } from './state.js';
-import { STATUS_META, STATUS_SHORT_LABELS, escapeHtml } from './format.js';
+import { STATUS_META, escapeHtml } from './format.js';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
 const BRANCH_STATUS = 'changes_requested';
@@ -11,17 +11,32 @@ const BRANCH_PARENT_INDEX = STATUSES.indexOf('approval_requested');
 const REWORK_TARGET_INDEX = STATUSES.indexOf('validated');
 
 // Built once from STATUSES, like the example's static node groups; render only toggles
-// classes. Task labels sit above the pills so the rework loop can run underneath.
+// classes. Each pill carries its BPMN task name, with the step number above that text.
 
 const FLOW = {
-  width: 1100,
+  width: 1280,
   height: 250,
-  rowY: 98,
-  branchY: 196,
-  firstX: 72,
-  lastX: 1028,
-  pillW: 124,
-  pillH: 44,
+  rowY: 62,
+  branchY: 186,
+  firstX: 84,
+  lastX: 1196,
+  pillW: 152,
+  pillH: 88,
+  pillRx: 28,
+};
+
+// Each BPMN task is its own line. The approval gateway splits on the yes/no phrase
+// so "(yes)" and "(no)" stay readable inside the outline.
+const FLOW_LINES = {
+  submitted: ['Client request received'],
+  validated: ['Validate requirements list'],
+  availability_requested: ['Search suitable talents', 'Request availability'],
+  responses_complete: ['Check availability response'],
+  approval_requested: ['Create final talents list', 'Request customer approval'],
+  approved: ['Check approval', 'decision (yes)'],
+  booked: ['Book talents'],
+  briefed: ['Send briefings'],
+  changes_requested: ['Check approval', 'decision (no)'],
 };
 
 function el(id) {
@@ -41,46 +56,53 @@ function svgEl(tag, attrs = {}, text = null) {
   return node;
 }
 
-// Wraps "Search suitable talents · Request availability" into short lines.
-function taskLines(task, maxChars = 25) {
-  return task.split(' · ').flatMap((segment) => {
-    const lines = [];
-    let line = '';
-    segment.split(' ').forEach((word) => {
-      const candidate = line ? `${line} ${word}` : word;
-      if (candidate.length > maxChars && line) {
-        lines.push(line);
-        line = word;
-      } else {
-        line = candidate;
-      }
-    });
-    lines.push(line);
-    return lines;
-  });
-}
-
-function flowNode(status, index, x, y, { taskBelow = false } = {}) {
+function flowNode(status, index, x, y) {
   const half = FLOW.pillW / 2;
-  const group = svgEl('g', { class: 'flow-node', 'data-status': status, transform: `translate(${x}, ${y})` });
-  group.appendChild(svgEl('title', {}, `${STATUS_META[status].label} — ${STATUS_META[status].task}`));
-  group.appendChild(svgEl('rect', {
-    class: 'node-ring', x: -half - 6, y: -FLOW.pillH / 2 - 6, width: FLOW.pillW + 12, height: FLOW.pillH + 12, rx: FLOW.pillH / 2 + 6,
-  }));
-  group.appendChild(svgEl('rect', {
-    class: 'node-bg', x: -half, y: -FLOW.pillH / 2, width: FLOW.pillW, height: FLOW.pillH, rx: FLOW.pillH / 2,
-  }));
-  group.appendChild(svgEl('circle', { class: 'node-dot', cx: -half + 22, cy: 0, r: 14 }));
-  group.appendChild(svgEl('text', { class: 'node-num', x: -half + 22, y: 0 }, index === null ? '!' : String(index + 1)));
-  group.appendChild(svgEl('text', { class: 'node-label', x: -half + 42, y: 4.5 }, STATUS_SHORT_LABELS[status]));
+  const lines = FLOW_LINES[status];
+  const badge = 22;
+  const lineHeight = 13.5;
+  const gap = 6;
+  const block = badge + gap + lines.length * lineHeight;
+  const badgeY = -block / 2;
 
-  const lines = taskLines(STATUS_META[status].task);
-  const lineHeight = 13;
-  const firstY = taskBelow
-    ? FLOW.pillH / 2 + 18
-    : -FLOW.pillH / 2 - 12 - (lines.length - 1) * lineHeight;
+  const group = svgEl('g', { class: 'flow-node', 'data-status': status, transform: `translate(${x}, ${y})` });
+  group.appendChild(svgEl('title', {}, STATUS_META[status].task));
+  group.appendChild(svgEl('rect', {
+    class: 'node-ring',
+    x: -half - 6,
+    y: -FLOW.pillH / 2 - 6,
+    width: FLOW.pillW + 12,
+    height: FLOW.pillH + 12,
+    rx: FLOW.pillRx + 6,
+  }));
+  group.appendChild(svgEl('rect', {
+    class: 'node-bg',
+    x: -half,
+    y: -FLOW.pillH / 2,
+    width: FLOW.pillW,
+    height: FLOW.pillH,
+    rx: FLOW.pillRx,
+  }));
+  group.appendChild(svgEl('rect', {
+    class: 'node-badge',
+    x: -badge / 2,
+    y: badgeY,
+    width: badge,
+    height: badge,
+    rx: 6,
+  }));
+  group.appendChild(svgEl('text', {
+    class: 'node-num',
+    x: 0,
+    y: badgeY + badge / 2,
+  }, index === null ? '!' : String(index + 1)));
+
   lines.forEach((line, lineIndex) => {
-    group.appendChild(svgEl('text', { class: 'node-task', x: 0, y: firstY + lineIndex * lineHeight }, line));
+    group.appendChild(svgEl('text', {
+      class: 'node-task',
+      x: 0,
+      y: badgeY + badge + gap + lineHeight / 2 + lineIndex * lineHeight,
+    }, line));
   });
   return group;
 }
@@ -125,7 +147,7 @@ export function buildFlow() {
   }, 'Rework loop'));
 
   STATUSES.forEach((status, index) => svg.appendChild(flowNode(status, index, nodeX(index), FLOW.rowY)));
-  const branch = flowNode(BRANCH_STATUS, null, branchX, FLOW.branchY, { taskBelow: true });
+  const branch = flowNode(BRANCH_STATUS, null, branchX, FLOW.branchY);
   branch.classList.add('is-branch');
   svg.appendChild(branch);
 
@@ -185,10 +207,7 @@ export function renderFlow(state) {
     return `
       <li class="flow-list-item${cls}"${isCurrent ? ' aria-current="step"' : ''}>
         <span class="flow-list-dot" aria-hidden="true">${index === null ? '!' : index + 1}</span>
-        <span>
-          <span class="flow-list-label">${escapeHtml(STATUS_META[itemStatus].label)}${reworkNote}<span class="sr-only">${suffix}</span></span>
-          <span class="flow-list-task">${escapeHtml(STATUS_META[itemStatus].task)}</span>
-        </span>
+        <span class="flow-list-label">${escapeHtml(STATUS_META[itemStatus].task)}${reworkNote}<span class="sr-only">${suffix}</span></span>
       </li>`;
   }).join('');
 }
