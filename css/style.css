@@ -177,49 +177,6 @@ a:hover {
   padding-bottom: 10px;
 }
 
-.brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--text);
-  text-decoration: none;
-}
-
-.brand:hover {
-  color: var(--text);
-}
-
-.logo {
-  width: 28px;
-  height: 28px;
-  border-radius: 8px;
-  background: linear-gradient(145deg, var(--accent) 0%, var(--accent-deep) 100%);
-  display: grid;
-  place-items: center;
-  color: var(--on-color);
-  box-shadow: 0 2px 8px rgba(74, 71, 128, 0.22);
-}
-
-.brand-text {
-  font-size: 1rem;
-  font-weight: 650;
-  letter-spacing: -0.02em;
-}
-
-.header-meta {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.header-meta-label {
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--text-tertiary);
-}
-
 /* ========== ROLE SWITCHER ========== */
 .role-nav {
   margin-bottom: 16px;
@@ -967,66 +924,12 @@ fieldset[aria-invalid="true"] .checkbox-grid {
   }
 }
 
-.progress-steps {
-  list-style: none;
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 8px;
-  counter-reset: step;
+.start-flow {
+  margin-bottom: 16px;
 }
 
-.progress-step {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  padding: 12px;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--border);
-  background: var(--surface-elevated);
-}
-
-.progress-step-dot {
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  font-size: 0.8rem;
-  font-weight: 650;
-  background: var(--surface-sunken);
-  color: var(--text-tertiary);
-}
-
-.progress-step-label {
-  font-weight: 620;
-  font-size: 0.92rem;
-}
-
-.progress-step-state {
-  font-size: 0.8rem;
-  color: var(--text-tertiary);
-}
-
-.progress-step.is-done .progress-step-dot {
-  background: var(--good);
-  color: var(--on-color);
-}
-
-.progress-step.is-current {
-  border-color: var(--accent-border);
-  background: var(--accent-soft);
-}
-
-.progress-step.is-current .progress-step-dot {
-  background: var(--accent);
-  color: var(--on-color);
-}
-
-@media (max-width: 560px) {
-  .progress-steps {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+.start-disclaimer {
+  margin-top: 16px;
 }
 
 .role-cards {
@@ -1663,14 +1566,6 @@ fieldset[aria-invalid="true"] .checkbox-grid {
 .tooltip.visible {
   opacity: 1;
   transform: translateY(0);
-}
-
-/* ========== FOOTER ========== */
-.site-footer {
-  margin-top: 32px;
-  font-size: 0.82rem;
-  color: var(--text-tertiary);
-  text-align: center;
 }
 
 @media (prefers-reduced-motion: reduce) {

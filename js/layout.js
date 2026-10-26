@@ -1,9 +1,9 @@
-// Chrome shared by every page: header with the case status, the concept banner (SPEC C5),
+// Chrome shared by every page: the concept banner (SPEC C5),
 // the role switcher (a demo device, not a login — SPEC §4) and the "Replaces / Solves" box.
 
 import { getState, subscribe, isStorageAvailable } from './state.js';
 import { tablerIcon, initTablerIcons } from './icons.js';
-import { escapeHtml, statusPillHtml } from './format.js';
+import { escapeHtml } from './format.js';
 
 const NAV_ITEMS = [
   { page: 'start', href: 'index.html', role: 'Demo', label: 'Start', icon: 'home' },
@@ -57,7 +57,6 @@ function navHtml(currentPage, status) {
 
 function renderChrome(currentPage) {
   const { status } = getState();
-  document.getElementById('header-status').innerHTML = statusPillHtml(status);
   document.getElementById('role-nav-list').innerHTML = navHtml(currentPage, status);
 }
 
@@ -77,16 +76,6 @@ export function initLayout(currentPage) {
       ${tablerIcon('info-circle', { size: 14 })}
       <span><strong>Concept mockup – no real data.</strong>
       <a href="index.html#disclaimer">Read the disclaimer</a></span>
-    </div>
-    <div class="header-bar">
-      <a class="brand" href="index.html">
-        <span class="logo">${tablerIcon('users', { size: 14 })}</span>
-        <span class="brand-text">Match Talents Platform</span>
-      </a>
-      <div class="header-meta">
-        <span class="header-meta-label">Demo order</span>
-        <span id="header-status" aria-live="polite"></span>
-      </div>
     </div>
     <nav class="role-nav" aria-label="Switch role (demo)">
       <ul id="role-nav-list"></ul>

@@ -36,20 +36,19 @@
         <p class="sr-only" id="reset-status" aria-live="polite"></p>
       </section>
 
+      <section class="card start-flow" aria-labelledby="flow-title">
+        <div class="card-header">
+          <h2 class="card-title" id="flow-title">
+            <span data-tabler-icon="refresh" data-tabler-size="14"></span> Order status
+          </h2>
+          <span class="card-meta" id="progress-meta"></span>
+        </div>
+        <div class="flow-wrap" id="flow-wrap"></div>
+        <ol class="flow-list" id="flow-list" aria-label="Order status steps"></ol>
+      </section>
+
       <div class="start-grid">
         <div class="stack">
-          <section class="card" aria-labelledby="progress-title">
-            <div class="card-header">
-              <h2 class="card-title" id="progress-title">
-                <span data-tabler-icon="history" data-tabler-size="14"></span> Demo progress
-              </h2>
-              <span class="card-meta" id="progress-meta"></span>
-            </div>
-            <div class="card-body">
-              <ol class="progress-steps" id="progress-steps"></ol>
-            </div>
-          </section>
-
           <section class="card" aria-labelledby="roles-title">
             <div class="card-header">
               <h2 class="card-title" id="roles-title">
@@ -94,24 +93,6 @@
         </div>
 
         <div class="stack">
-          <section class="card" id="disclaimer" aria-labelledby="disclaimer-title" tabindex="-1">
-            <div class="card-header">
-              <h2 class="card-title" id="disclaimer-title">
-                <span data-tabler-icon="info-circle" data-tabler-size="14"></span> Disclaimer
-              </h2>
-            </div>
-            <div class="card-body prose">
-              <p><strong>This is a concept mockup, not a product.</strong> It shows a proposed process
-                redesign from a university case study about the staffing agency easystaff.</p>
-              <ul>
-                <li>All people, clients and addresses are fictional (e.g. “Demo Client GmbH”, “Talent A (demo)”).</li>
-                <li>There is no backend, login, e-mail or push notification. Everything is stored in your browser only.</li>
-                <li>Talents are selected by HR by hand, as in the To-Be model — there is no matching algorithm.</li>
-                <li>Not affiliated with easystaff; no easystaff logo, colours or screenshots are used.</li>
-              </ul>
-            </div>
-          </section>
-
           <section class="card" aria-labelledby="how-title">
             <div class="card-header">
               <h2 class="card-title" id="how-title">
@@ -126,9 +107,25 @@
           </section>
         </div>
       </div>
-    </main>
 
-    <footer class="site-footer">Concept mockup – no real data. Runs entirely in your browser.</footer>
+      <section class="card start-disclaimer" id="disclaimer" aria-labelledby="disclaimer-title" tabindex="-1">
+        <div class="card-header">
+          <h2 class="card-title" id="disclaimer-title">
+            <span data-tabler-icon="info-circle" data-tabler-size="14"></span> Disclaimer
+          </h2>
+        </div>
+        <div class="card-body prose">
+          <p><strong>This is a concept mockup, not a product.</strong> It shows a proposed process
+            redesign from a university case study about the staffing agency easystaff.</p>
+          <ul>
+            <li>All people, clients and addresses are fictional (e.g. “Demo Client GmbH”, “Talent A (demo)”).</li>
+            <li>There is no backend, login, e-mail or push notification. Everything is stored in your browser only.</li>
+            <li>Talents are selected by HR by hand, as in the To-Be model — there is no matching algorithm.</li>
+            <li>Not affiliated with easystaff; no easystaff logo, colours or screenshots are used.</li>
+          </ul>
+        </div>
+      </section>
+    </main>
   </div>
 </body>
 </html>
