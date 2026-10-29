@@ -1,9 +1,10 @@
 // Order status flow (SVG + text list), shared by the start page and the case dashboard.
-// Both pages provide #flow-wrap and #flow-list; buildFlow() runs once, renderFlow() on
-// every state change.
+// Both pages provide #flow-wrap and #flow-list; buildFlow() runs once (and again on a
+// language switch), renderFlow() on every state change.
 
-import { STATUSES } from './state.js';
-import { STATUS_META, escapeHtml } from './format.js';
+import { STATUSES, getState } from './state.js';
+import { escapeHtml, statusLabel } from './format.js';
+import { t, onLangChange } from './i18n.js';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
 const BRANCH_STATUS = 'changes_requested';
@@ -25,19 +26,13 @@ const FLOW = {
   pillRx: 28,
 };
 
-// Each BPMN task is its own line. The approval gateway splits on the yes/no phrase
-// so "(yes)" and "(no)" stay readable inside the outline.
-const FLOW_LINES = {
-  submitted: ['Client request received'],
-  validated: ['Validate requirements list'],
-  availability_requested: ['Search suitable talents', 'Request availability'],
-  responses_complete: ['Check availability response'],
-  approval_requested: ['Create final talents list', 'Request customer approval'],
-  approved: ['Check approval', 'decision (yes)'],
-  booked: ['Book talents'],
-  briefed: ['Send briefings'],
-  changes_requested: ['Check approval', 'decision (no)'],
-};
+// The pill text is t('flow.<status>'), split into lines at "\n": each BPMN task is its own
+// line, and long names are split by hand per language so they fit the pill width.
+function flowLines(status) {
+  return t(`flow.${status}`).split('\n');
+}
+
+let langListening = false;
 
 function el(id) {
   return document.getElementById(id);
@@ -58,7 +53,7 @@ function svgEl(tag, attrs = {}, text = null) {
 
 function flowNode(status, index, x, y) {
   const half = FLOW.pillW / 2;
-  const lines = FLOW_LINES[status];
+  const lines = flowLines(status);
   const badge = 22;
   const lineHeight = 13.5;
   const gap = 6;
@@ -66,7 +61,7 @@ function flowNode(status, index, x, y) {
   const badgeY = -block / 2;
 
   const group = svgEl('g', { class: 'flow-node', 'data-status': status, transform: `translate(${x}, ${y})` });
-  group.appendChild(svgEl('title', {}, STATUS_META[status].task));
+  group.appendChild(svgEl('title', {}, statusLabel(status)));
   group.appendChild(svgEl('rect', {
     class: 'node-ring',
     x: -half - 6,
@@ -144,14 +139,23 @@ export function buildFlow() {
   }));
   svg.appendChild(svgEl('text', {
     class: 'flow-rework-label', id: 'flow-rework-label', x: (branchX - half + targetX) / 2, y: FLOW.branchY - 8,
-  }, 'Rework loop'));
+  }, t('flow.rework')));
 
   STATUSES.forEach((status, index) => svg.appendChild(flowNode(status, index, nodeX(index), FLOW.rowY)));
   const branch = flowNode(BRANCH_STATUS, null, branchX, FLOW.branchY);
   branch.classList.add('is-branch');
   svg.appendChild(branch);
 
-  el('flow-wrap').appendChild(svg);
+  el('flow-wrap').replaceChildren(svg);
+
+  // The pill text is baked into the SVG, so a language switch rebuilds it.
+  if (!langListening) {
+    langListening = true;
+    onLangChange(() => {
+      buildFlow();
+      renderFlow(getState());
+    });
+  }
 }
 
 function mainIndex(status) {
@@ -184,7 +188,9 @@ export function renderFlow(state) {
   document.querySelectorAll('#flow-wrap .flow-rework').forEach((path) => {
     path.classList.toggle('is-active', reworkActive);
   });
-  el('flow-rework-label').textContent = reworkCount > 0 ? `Rework loop · ${reworkCount}×` : 'Rework loop';
+  el('flow-rework-label').textContent = reworkCount > 0
+    ? t('flow.reworkCount', { count: reworkCount })
+    : t('flow.rework');
 
   // Text version of the same diagram (visible on small screens).
   const items = STATUSES.map((itemStatus, index) => ({ itemStatus, index }));
@@ -199,15 +205,15 @@ export function renderFlow(state) {
     const cls = `${isDone ? ' is-done' : ''}${isCurrent && !isFinal ? ' is-current' : ''}${index === null ? ' is-branch' : ''}`;
     let suffix = '';
     if (isCurrent) {
-      suffix = ' (current)';
+      suffix = t('flow.current');
     } else if (isDone) {
-      suffix = ' (done)';
+      suffix = t('flow.done');
     }
     const reworkNote = index === null && reworkCount > 0 ? ` · ${reworkCount}×` : '';
     return `
       <li class="flow-list-item${cls}"${isCurrent ? ' aria-current="step"' : ''}>
         <span class="flow-list-dot" aria-hidden="true">${index === null ? '!' : index + 1}</span>
-        <span class="flow-list-label">${escapeHtml(STATUS_META[itemStatus].task)}${reworkNote}<span class="sr-only">${suffix}</span></span>
+        <span class="flow-list-label">${escapeHtml(statusLabel(itemStatus))}${reworkNote}<span class="sr-only">${suffix}</span></span>
       </li>`;
   }).join('');
 }

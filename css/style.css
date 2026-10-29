@@ -185,9 +185,17 @@ a:hover {
   padding-bottom: 10px;
 }
 
-/* ========== ROLE SWITCHER ========== */
-.role-nav {
+/* ========== ROLE SWITCHER + LANGUAGE SWITCH ========== */
+.site-nav-row {
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
   margin-bottom: 16px;
+}
+
+.role-nav {
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
 .role-nav ul {
@@ -248,6 +256,42 @@ a:hover {
   color: rgba(248, 247, 244, 0.8);
 }
 
+.lang-switch {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 5px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+}
+
+.lang-btn {
+  min-width: 38px;
+  padding: 7px 8px;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-secondary);
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 650;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: background 0.18s ease, color 0.18s ease;
+}
+
+.lang-btn:hover {
+  background: var(--surface-sunken);
+  color: var(--text);
+}
+
+.lang-btn[aria-pressed="true"] {
+  background: var(--accent);
+  color: var(--on-color);
+}
+
 .nav-next-dot {
   width: 8px;
   height: 8px;
@@ -256,8 +300,16 @@ a:hover {
   box-shadow: 0 0 0 3px var(--watch-soft);
 }
 
-/* Phone width: a 2-column grid, role stacked above the screen name. */
+/* Phone width: the language switch sits above the nav on the right; the nav becomes a
+   2-column grid, role stacked above the screen name. */
 @media (max-width: 640px) {
+  .site-nav-row {
+    flex-direction: column-reverse;
+    align-items: flex-end;
+  }
+  .role-nav {
+    align-self: stretch;
+  }
   .role-nav ul {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));

@@ -4,8 +4,11 @@
 import { getState, subscribe, submitRequest } from '../state.js';
 import { initLayout, renderInfoBox } from '../layout.js';
 import { initTablerIcons, tablerIcon } from '../icons.js';
-import { escapeHtml, formatDateRange, formatShift, statusPillHtml } from '../format.js';
+import {
+  escapeHtml, formatDateRange, formatShift, statusPillHtml, serviceAreaLabel, qualificationLabel,
+} from '../format.js';
 import { SERVICE_AREAS, QUALIFICATIONS, demoRequest } from '../seed.js';
+import { t, tPlural, onLangChange } from '../i18n.js';
 
 const NOTES_MAX = 500;
 const form = document.getElementById('request-form');
@@ -24,59 +27,59 @@ function checkedQualifications() {
   return [...form.querySelectorAll('input[name="qualifications"]:checked')].map((box) => box.value);
 }
 
-// Each validator returns an error message, or '' when the value is fine.
+// Each validator returns the key of an error message, or '' when the value is fine.
 const VALIDATORS = {
-  company: () => (field('company').value.trim() ? '' : 'Enter the company name.'),
+  company: () => (field('company').value.trim() ? '' : 'error.company.required'),
   email: () => {
     const value = field('email').value.trim();
     if (!value) {
-      return 'Enter a contact e-mail.';
+      return 'error.email.required';
     }
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) ? '' : 'Enter a valid e-mail, e.g. name@company.example.';
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) ? '' : 'error.email.invalid';
   },
-  serviceArea: () => (field('serviceArea').value ? '' : 'Choose a service area.'),
+  serviceArea: () => (field('serviceArea').value ? '' : 'error.serviceArea.required'),
   role: () => {
     const length = field('role').value.trim().length;
     if (length === 0) {
-      return 'Enter the role or job title.';
+      return 'error.role.required';
     }
-    return length >= 3 && length <= 60 ? '' : 'The role must be 3–60 characters long.';
+    return length >= 3 && length <= 60 ? '' : 'error.role.length';
   },
   staff: () => {
     const raw = field('staff').value.trim();
     if (!raw) {
-      return 'Enter the number of staff.';
+      return 'error.staff.required';
     }
     const value = Number(raw);
-    return Number.isInteger(value) && value >= 1 && value <= 50 ? '' : 'Enter a whole number from 1 to 50.';
+    return Number.isInteger(value) && value >= 1 && value <= 50 ? '' : 'error.staff.range';
   },
-  qualifications: () => (checkedQualifications().length > 0 ? '' : 'Select at least one qualification.'),
-  location: () => (field('location').value.trim() ? '' : 'Enter the city.'),
+  qualifications: () => (checkedQualifications().length > 0 ? '' : 'error.qualifications.required'),
+  location: () => (field('location').value.trim() ? '' : 'error.location.required'),
   startDate: () => {
     const value = field('startDate').value;
     if (!value) {
-      return 'Enter a start date.';
+      return 'error.startDate.required';
     }
-    return value >= todayIso() ? '' : 'The start date cannot be in the past.';
+    return value >= todayIso() ? '' : 'error.startDate.past';
   },
   endDate: () => {
     const value = field('endDate').value;
     if (!value) {
-      return 'Enter an end date.';
+      return 'error.endDate.required';
     }
     const start = field('startDate').value;
-    return !start || value >= start ? '' : 'The end date must be on or after the start date.';
+    return !start || value >= start ? '' : 'error.endDate.beforeStart';
   },
-  shiftStart: () => (field('shiftStart').value ? '' : 'Enter the shift start.'),
+  shiftStart: () => (field('shiftStart').value ? '' : 'error.shiftStart.required'),
   shiftEnd: () => {
     const value = field('shiftEnd').value;
     if (!value) {
-      return 'Enter the shift end.';
+      return 'error.shiftEnd.required';
     }
     const start = field('shiftStart').value;
-    return !start || value > start ? '' : 'The shift must end after it starts.';
+    return !start || value > start ? '' : 'error.shiftEnd.beforeStart';
   },
-  notes: () => (field('notes').value.length <= NOTES_MAX ? '' : `Notes can be at most ${NOTES_MAX} characters.`),
+  notes: () => (field('notes').value.length <= NOTES_MAX ? '' : 'error.notes.tooLong'),
 };
 
 const FIELD_ORDER = Object.keys(VALIDATORS);
@@ -85,23 +88,40 @@ const FIELD_ORDER = Object.keys(VALIDATORS);
 const DEPENDENTS = { startDate: 'endDate', shiftStart: 'shiftEnd' };
 const touched = new Set();
 
-function showError(id, message) {
+// The error key shown per field and the form summary, kept so a language switch can
+// re-render them without validating again.
+const shownErrors = {};
+let formSummary = null;
+
+function showError(id, key) {
+  shownErrors[id] = key;
   const errorElement = field(`${id}-error`);
-  errorElement.innerHTML = message
-    ? `${tablerIcon('alert-triangle', { size: 14 })}<span>${escapeHtml(message)}</span>`
+  errorElement.innerHTML = key
+    ? `${tablerIcon('alert-triangle', { size: 14 })}<span>${escapeHtml(t(key, { max: NOTES_MAX }))}</span>`
     : '';
-  field(id).setAttribute('aria-invalid', message ? 'true' : 'false');
+  field(id).setAttribute('aria-invalid', key ? 'true' : 'false');
 }
 
 function validateField(id) {
-  const message = VALIDATORS[id]();
-  showError(id, message);
-  return message;
+  const key = VALIDATORS[id]();
+  showError(id, key);
+  return key;
+}
+
+function setFormSummary(summary) {
+  formSummary = summary;
+  let text = '';
+  if (summary && summary.count !== undefined) {
+    text = tPlural(summary.key, summary.count);
+  } else if (summary) {
+    text = t(summary.key);
+  }
+  field('form-summary').textContent = text;
 }
 
 function clearErrors() {
   FIELD_ORDER.forEach((id) => showError(id, ''));
-  field('form-summary').textContent = '';
+  setFormSummary(null);
   touched.clear();
 }
 
@@ -135,7 +155,7 @@ function fillForm(request) {
 }
 
 function updateNotesCount() {
-  field('notes-count').textContent = `${field('notes').value.length} / ${NOTES_MAX} characters`;
+  field('notes-count').textContent = t('request.notesCount', { count: field('notes').value.length, max: NOTES_MAX });
 }
 
 function updateDateMins() {
@@ -143,13 +163,16 @@ function updateDateMins() {
   field('endDate').min = field('startDate').value || todayIso();
 }
 
+// Options carry keys as values; their labels use data-i18n, so a language switch relabels
+// them in place and the user's choices survive.
 function buildOptions() {
   field('serviceArea').insertAdjacentHTML('beforeend', SERVICE_AREAS
-    .map((area) => `<option value="${escapeHtml(area)}">${escapeHtml(area)}</option>`).join(''));
+    .map((area) => `<option value="${escapeHtml(area)}" data-i18n="serviceArea.${escapeHtml(area)}">${escapeHtml(serviceAreaLabel(area))}</option>`)
+    .join(''));
   field('qualifications-options').innerHTML = QUALIFICATIONS.map((qualification, index) => `
     <label class="checkbox" for="qualification-${index}">
       <input type="checkbox" id="qualification-${index}" name="qualifications" value="${escapeHtml(qualification)}" />
-      ${escapeHtml(qualification)}
+      <span data-i18n="qualification.${escapeHtml(qualification)}">${escapeHtml(qualificationLabel(qualification))}</span>
     </label>`).join('');
 }
 
@@ -193,14 +216,12 @@ function bindValidation() {
     const invalid = FIELD_ORDER.filter((id) => validateField(id));
     FIELD_ORDER.forEach((id) => touched.add(id));
     if (invalid.length > 0) {
-      field('form-summary').textContent = invalid.length === 1
-        ? '1 field needs attention.'
-        : `${invalid.length} fields need attention.`;
+      setFormSummary({ key: 'request.invalidCount', count: invalid.length });
       const first = field(invalid[0]);
       (first.tagName === 'FIELDSET' ? first.querySelector('input') : first).focus();
       return;
     }
-    field('form-summary').textContent = '';
+    setFormSummary(null);
     if (submitRequest(readForm())) {
       render({ justSubmitted: true });
     }
@@ -209,22 +230,22 @@ function bindValidation() {
   field('fill-demo-btn').addEventListener('click', () => {
     clearErrors();
     fillForm(demoRequest());
-    field('form-summary').textContent = 'Demo data filled in. Check it and submit.';
+    setFormSummary({ key: 'request.demoFilled' });
   });
 }
 
 function renderSummary(request) {
   const rows = [
-    ['Company', request.company],
-    ['Contact e-mail', request.email],
-    ['Service area', request.serviceArea],
-    ['Role', request.role],
-    ['Number of staff', String(request.staff)],
-    ['Location', request.location],
-    ['Date', formatDateRange(request.startDate, request.endDate)],
-    ['Shift', formatShift(request.shiftStart, request.shiftEnd)],
-    ['Qualifications', request.qualifications.join(', ')],
-    ['Notes', request.notes || '—'],
+    [t('field.company'), request.company],
+    [t('field.email'), request.email],
+    [t('field.serviceArea'), serviceAreaLabel(request.serviceArea)],
+    [t('field.role'), request.role],
+    [t('field.staff'), String(request.staff)],
+    [t('field.location'), request.location],
+    [t('field.date'), formatDateRange(request.startDate, request.endDate)],
+    [t('field.shift'), formatShift(request.shiftStart, request.shiftEnd)],
+    [t('field.qualifications'), request.qualifications.map(qualificationLabel).join(', ')],
+    [t('field.notes'), request.notes || '—'],
   ];
   field('request-summary').innerHTML = rows
     .map(([label, value]) => `<div class="data-row"><dt>${escapeHtml(label)}</dt><dd>${escapeHtml(value)}</dd></div>`)
@@ -249,13 +270,10 @@ function render({ justSubmitted = false } = {}) {
 }
 
 initLayout('request');
-renderInfoBox(field('info-box'), {
-  replaces: '“Create requirements list” — Sales copies the client\'s e-mail into the CRM.',
-  solves: 'Manual handover and incomplete requirements.',
-  tasks: 'Client submits → HR “Validate requirements list”.',
-});
+renderInfoBox(field('info-box'), 'request');
 buildOptions();
 updateDateMins();
+updateNotesCount();
 bindValidation();
 initTablerIcons();
 render();
@@ -267,5 +285,13 @@ subscribe(() => {
     clearErrors();
     updateNotesCount();
   }
+  render();
+});
+
+// The static labels and options are relabelled by data-i18n; typed input stays as it is.
+onLangChange(() => {
+  FIELD_ORDER.filter((id) => shownErrors[id]).forEach((id) => showError(id, shownErrors[id]));
+  setFormSummary(formSummary);
+  updateNotesCount();
   render();
 });

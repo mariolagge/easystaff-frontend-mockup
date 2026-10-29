@@ -3,22 +3,22 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Case dashboard · Match Talents Platform</title>
+  <title data-i18n="dashboard.title">Case dashboard · Match Talents Platform</title>
   <link rel="icon" href="data:," />
   <link rel="stylesheet" href="css/style.css" />
   <script type="module" src="js/pages/dashboard.js"></script>
 </head>
 <body>
-  <a class="skip-link" href="#main">Skip to content</a>
+  <a class="skip-link" href="#main" data-i18n="common.skip">Skip to content</a>
   <div class="app">
     <header id="site-header"></header>
 
     <main id="main" tabindex="-1">
       <div class="page-head">
         <div>
-          <p class="eyebrow"><span data-tabler-icon="layout-dashboard" data-tabler-size="13"></span> HR · Screen 4</p>
-          <h1 class="page-title">Case dashboard</h1>
-          <p class="page-lead">One place for the whole order: requirements, talents, answers and approval — with exactly one obvious next step.</p>
+          <p class="eyebrow"><span data-tabler-icon="layout-dashboard" data-tabler-size="13"></span> <span data-i18n="dashboard.eyebrow">HR · Screen 4</span></p>
+          <h1 class="page-title" data-i18n="dashboard.heading">Case dashboard</h1>
+          <p class="page-lead" data-i18n="dashboard.lead">One place for the whole order: requirements, talents, answers and approval — with exactly one obvious next step.</p>
         </div>
         <section id="info-box"></section>
       </div>
@@ -28,28 +28,28 @@
       <div id="dashboard-content" hidden>
         <!-- ORDER METRIC STRIP -->
         <div class="metric-grid">
-          <section class="metric" aria-label="Order">
+          <section class="metric" aria-label="Order" data-i18n-attr="aria-label:dashboard.metricOrder">
             <div class="metric-icon"><span data-tabler-icon="briefcase" data-tabler-size="26"></span></div>
             <dl class="metric-body">
-              <div class="metric-row"><dt class="metric-label">Client</dt><dd class="metric-value" id="metric-client">—</dd></div>
-              <div class="metric-row"><dt class="metric-label">Role</dt><dd class="metric-value" id="metric-role">—</dd></div>
-              <div class="metric-row"><dt class="metric-label">Where / when</dt><dd class="metric-value" id="metric-where">—</dd></div>
+              <div class="metric-row"><dt class="metric-label" data-i18n="dashboard.client">Client</dt><dd class="metric-value" id="metric-client">—</dd></div>
+              <div class="metric-row"><dt class="metric-label" data-i18n="dashboard.role">Role</dt><dd class="metric-value" id="metric-role">—</dd></div>
+              <div class="metric-row"><dt class="metric-label" data-i18n="dashboard.whereWhen">Where / when</dt><dd class="metric-value" id="metric-where">—</dd></div>
             </dl>
           </section>
-          <section class="metric" aria-label="Staffing">
+          <section class="metric" aria-label="Staffing" data-i18n-attr="aria-label:dashboard.metricStaffing">
             <div class="metric-icon"><span data-tabler-icon="users" data-tabler-size="26"></span></div>
             <dl class="metric-body">
-              <div class="metric-row"><dt class="metric-label">Staff needed</dt><dd class="metric-value metric-value-lg" id="metric-needed">—</dd></div>
-              <div class="metric-row"><dt class="metric-label">Selected</dt><dd class="metric-value metric-value-lg" id="metric-selected">—</dd></div>
-              <div class="metric-row"><dt class="metric-label">Accepted / asked</dt><dd class="metric-value metric-value-lg" id="metric-accepted">—</dd></div>
+              <div class="metric-row"><dt class="metric-label" data-i18n="dashboard.needed">Staff needed</dt><dd class="metric-value metric-value-lg" id="metric-needed">—</dd></div>
+              <div class="metric-row"><dt class="metric-label" data-i18n="dashboard.selected">Selected</dt><dd class="metric-value metric-value-lg" id="metric-selected">—</dd></div>
+              <div class="metric-row"><dt class="metric-label" data-i18n="dashboard.acceptedAsked">Accepted / asked</dt><dd class="metric-value metric-value-lg" id="metric-accepted">—</dd></div>
             </dl>
           </section>
-          <section class="metric" aria-label="Status">
+          <section class="metric" aria-label="Status" data-i18n-attr="aria-label:dashboard.metricStatus">
             <div class="metric-icon"><span data-tabler-icon="history" data-tabler-size="26"></span></div>
             <dl class="metric-body">
-              <div class="metric-row"><dt class="metric-label">Status</dt><dd class="metric-value" id="metric-status">—</dd></div>
-              <div class="metric-row"><dt class="metric-label">Step</dt><dd class="metric-value metric-value-lg" id="metric-step">—</dd></div>
-              <div class="metric-row"><dt class="metric-label">Rework loops</dt><dd class="metric-value metric-value-lg" id="metric-rework">—</dd></div>
+              <div class="metric-row"><dt class="metric-label" data-i18n="dashboard.status">Status</dt><dd class="metric-value" id="metric-status">—</dd></div>
+              <div class="metric-row"><dt class="metric-label" data-i18n="dashboard.step">Step</dt><dd class="metric-value metric-value-lg" id="metric-step">—</dd></div>
+              <div class="metric-row"><dt class="metric-label" data-i18n="dashboard.reworkLoops">Rework loops</dt><dd class="metric-value metric-value-lg" id="metric-rework">—</dd></div>
             </dl>
           </section>
         </div>
@@ -58,32 +58,32 @@
         <section class="card" aria-labelledby="flow-title">
           <div class="card-header">
             <h2 class="card-title" id="flow-title">
-              <span data-tabler-icon="refresh" data-tabler-size="14"></span> Order status
+              <span data-tabler-icon="refresh" data-tabler-size="14"></span> <span data-i18n="start.orderStatus">Order status</span>
             </h2>
-            <span class="card-meta">Labels show the To-Be BPMN task</span>
+            <span class="card-meta" data-i18n="dashboard.flowMeta">Labels show the To-Be BPMN task</span>
           </div>
           <div class="flow-wrap" id="flow-wrap"></div>
-          <ol class="flow-list" id="flow-list" aria-label="Order status steps"></ol>
+          <ol class="flow-list" id="flow-list" aria-label="Order status steps" data-i18n-attr="aria-label:flow.listLabel"></ol>
         </section>
 
         <div class="dashboard-grid">
           <section class="card" aria-labelledby="talents-title">
             <div class="card-header">
               <h2 class="card-title" id="talents-title">
-                <span data-tabler-icon="users" data-tabler-size="14"></span> Talents
+                <span data-tabler-icon="users" data-tabler-size="14"></span> <span data-i18n="dashboard.talents">Talents</span>
               </h2>
               <span class="card-meta" id="talents-meta"></span>
             </div>
             <div class="table-wrap">
               <table class="talent-table">
-                <caption class="sr-only">Talent pool for this order: qualification match, availability and selection</caption>
+                <caption class="sr-only" data-i18n="dashboard.tableCaption">Talent pool for this order: qualification match, availability and selection</caption>
                 <thead>
                   <tr>
-                    <th scope="col">Talent</th>
-                    <th scope="col">Qualifications</th>
-                    <th scope="col">Match</th>
-                    <th scope="col">Availability</th>
-                    <th scope="col" class="col-center">Selected</th>
+                    <th scope="col" data-i18n="dashboard.colTalent">Talent</th>
+                    <th scope="col" data-i18n="dashboard.colQualifications">Qualifications</th>
+                    <th scope="col" data-i18n="dashboard.colMatch">Match</th>
+                    <th scope="col" data-i18n="dashboard.colAvailability">Availability</th>
+                    <th scope="col" class="col-center" data-i18n="dashboard.colSelected">Selected</th>
                   </tr>
                 </thead>
                 <tbody id="talent-rows"></tbody>
@@ -95,7 +95,7 @@
             <section class="card" aria-labelledby="next-title">
               <div class="card-header">
                 <h2 class="card-title" id="next-title">
-                  <span data-tabler-icon="arrow-right" data-tabler-size="14"></span> Next action
+                  <span data-tabler-icon="arrow-right" data-tabler-size="14"></span> <span data-i18n="dashboard.nextAction">Next action</span>
                 </h2>
               </div>
               <div class="card-body next-action" id="next-action"></div>
@@ -104,7 +104,7 @@
             <section class="card" aria-labelledby="activity-title">
               <div class="card-header">
                 <h2 class="card-title" id="activity-title">
-                  <span data-tabler-icon="clock" data-tabler-size="14"></span> Activity
+                  <span data-tabler-icon="clock" data-tabler-size="14"></span> <span data-i18n="dashboard.activity">Activity</span>
                 </h2>
               </div>
               <div class="card-body">

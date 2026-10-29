@@ -7,11 +7,13 @@
 // - talent.availability also has "not_requested", so "not asked yet" differs from "asked";
 // - talent.shortlisted, availabilityRequestedAt, approvalRequestedAt (deadline texts),
 //   reworkCount (rework loop label in the timeline).
+// - serviceArea, qualifications and declineReason hold keys, and talents carry no display
+//   text: labels come from js/i18n at render time, so a language switch keeps the case.
 
 import { TALENTS } from './seed.js';
 
 const STORAGE_KEY = 'matchTalentsDemo';
-const VERSION = 1;
+const VERSION = 2;
 
 // The main path of SPEC §6; changes_requested branches off approval_requested.
 export const STATUSES = [
@@ -44,12 +46,9 @@ function initialState() {
     version: VERSION,
     status: null,
     request: null,
-    talents: TALENTS.map(({ id, name, role, qualifications, profile }) => ({
+    talents: TALENTS.map(({ id, qualifications }) => ({
       id,
-      name,
-      role,
       qualifications: [...qualifications],
-      profile,
       selected: false,
       availability: 'not_requested',
       answeredAt: null,

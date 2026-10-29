@@ -1,16 +1,24 @@
-// Chrome shared by every page: the concept banner (SPEC C5),
-// the role switcher (a demo device, not a login — SPEC §4) and the "Replaces / Solves" box.
+// Chrome shared by every page: the concept banner (SPEC C5), the role switcher (a demo
+// device, not a login — SPEC §4), the EN | DE language switch (SPEC C3) and the
+// "Replaces / Solves" box.
 
 import { getState, subscribe, isStorageAvailable } from './state.js';
 import { tablerIcon, initTablerIcons } from './icons.js';
 import { escapeHtml } from './format.js';
+import { t, getLang, setLang, onLangChange, applyStatic } from './i18n.js';
 
 const NAV_ITEMS = [
-  { page: 'start', href: 'index.html', role: 'Demo', label: 'Start', icon: 'home' },
-  { page: 'request', href: 'request.html', role: 'Client', label: 'Request', icon: 'briefcase' },
-  { page: 'availability', href: 'availability.html', role: 'Talent', label: 'Availability', icon: 'device-mobile' },
-  { page: 'approval', href: 'approval.html', role: 'Client', label: 'Approval', icon: 'clipboard-check' },
-  { page: 'dashboard', href: 'dashboard.html', role: 'HR', label: 'Dashboard', icon: 'layout-dashboard' },
+  { page: 'start', href: 'index.html', role: 'demo', icon: 'home' },
+  { page: 'request', href: 'request.html', role: 'client', icon: 'briefcase' },
+  { page: 'availability', href: 'availability.html', role: 'talent', icon: 'device-mobile' },
+  { page: 'approval', href: 'approval.html', role: 'client', icon: 'clipboard-check' },
+  { page: 'dashboard', href: 'dashboard.html', role: 'hr', icon: 'layout-dashboard' },
+];
+
+// Each language is named in itself, so the switch reads the same in both.
+const LANGUAGES = [
+  { code: 'en', short: 'EN', name: 'English' },
+  { code: 'de', short: 'DE', name: 'Deutsch' },
 ];
 
 // Which screen has the next move, so the viewer always knows where to click.
@@ -41,23 +49,30 @@ function navHtml(currentPage, status) {
     const current = item.page === currentPage ? ' aria-current="page"' : '';
     const isNext = item.page === next && item.page !== currentPage;
     const nextMarker = isNext
-      ? '<span class="nav-next-dot" aria-hidden="true"></span><span class="sr-only"> (next step)</span>'
+      ? `<span class="nav-next-dot" aria-hidden="true"></span><span class="sr-only">${escapeHtml(t('layout.nextStep'))}</span>`
       : '';
     return `
       <li>
         <a class="nav-link${isNext ? ' is-next' : ''}" href="${item.href}"${current}>
           ${tablerIcon(item.icon, { size: 15 })}
-          <span class="nav-role">${escapeHtml(item.role)}</span>
-          <span class="nav-label">${escapeHtml(item.label)}</span>
+          <span class="nav-role">${escapeHtml(t(`nav.role.${item.role}`))}</span>
+          <span class="nav-label">${escapeHtml(t(`nav.${item.page}`))}</span>
           ${nextMarker}
         </a>
       </li>`;
   }).join('');
 }
 
+function langSwitchHtml() {
+  return LANGUAGES.map(({ code, short, name }) => `
+    <button type="button" class="lang-btn" data-lang="${code}" lang="${code}" title="${name}"
+      aria-pressed="${code === getLang()}">${short}</button>`).join('');
+}
+
 function renderChrome(currentPage) {
   const { status } = getState();
   document.getElementById('role-nav-list').innerHTML = navHtml(currentPage, status);
+  document.getElementById('lang-switch').innerHTML = langSwitchHtml();
 }
 
 export function showNotice(message) {
@@ -74,34 +89,53 @@ export function initLayout(currentPage) {
   header.innerHTML = `
     <div class="concept-banner">
       ${tablerIcon('info-circle', { size: 14 })}
-      <span><strong>Concept mockup – no real data.</strong>
-      <a href="index.html#disclaimer">Read the disclaimer</a></span>
+      <span><strong data-i18n="layout.banner"></strong>
+      <a href="index.html#disclaimer" data-i18n="layout.bannerLink"></a></span>
     </div>
-    <nav class="role-nav" aria-label="Switch role (demo)">
-      <ul id="role-nav-list"></ul>
-    </nav>
+    <div class="site-nav-row">
+      <nav class="role-nav" data-i18n-attr="aria-label:layout.navLabel">
+        <ul id="role-nav-list"></ul>
+      </nav>
+      <div class="lang-switch" id="lang-switch" role="group" data-i18n-attr="aria-label:layout.langLabel"></div>
+    </div>
     <div id="notice-placeholder"></div>`;
+  applyStatic(header);
+
+  document.getElementById('lang-switch').addEventListener('click', (event) => {
+    const button = event.target.closest('[data-lang]');
+    if (button) {
+      setLang(button.dataset.lang);
+      document.querySelector(`#lang-switch [data-lang="${button.dataset.lang}"]`).focus();
+    }
+  });
 
   renderChrome(currentPage);
   subscribe(() => renderChrome(currentPage));
+  onLangChange(() => renderChrome(currentPage));
   initTablerIcons();
 
   if (!isStorageAvailable()) {
-    showNotice('Your browser blocks local storage. The demo still works, but only within this page — reloading or switching screens starts over.');
+    showNotice(t('layout.storageNotice'));
+    onLangChange(() => showNotice(t('layout.storageNotice')));
   }
 }
 
 // SPEC §5: every screen names the BPMN task it replaces and the pain point it solves.
-export function renderInfoBox(element, { replaces, solves, tasks }) {
+// The texts are info.<page>.replaces / .solves / .tasks in js/i18n.
+export function renderInfoBox(element, page) {
+  const render = () => {
+    element.setAttribute('aria-label', t('info.label'));
+    element.innerHTML = `
+      <div class="info-box-icon">${tablerIcon('mail-off', { size: 20 })}</div>
+      <dl class="info-box-list">
+        <div><dt>${escapeHtml(t('info.replaces'))}</dt><dd>${escapeHtml(t(`info.${page}.replaces`))}</dd></div>
+        <div><dt>${escapeHtml(t('info.solves'))}</dt><dd>${escapeHtml(t(`info.${page}.solves`))}</dd></div>
+        <div><dt>${escapeHtml(t('info.tasks'))}</dt><dd>${escapeHtml(t(`info.${page}.tasks`))}</dd></div>
+      </dl>`;
+  };
   element.classList.add('info-box');
-  element.setAttribute('aria-label', 'What this screen replaces');
-  element.innerHTML = `
-    <div class="info-box-icon">${tablerIcon('mail-off', { size: 20 })}</div>
-    <dl class="info-box-list">
-      <div><dt>Replaces</dt><dd>${escapeHtml(replaces)}</dd></div>
-      <div><dt>Solves</dt><dd>${escapeHtml(solves)}</dd></div>
-      <div><dt>To-Be tasks</dt><dd>${escapeHtml(tasks)}</dd></div>
-    </dl>`;
+  render();
+  onLangChange(render);
 }
 
 // A friendly "not yet" panel for screens opened out of order.

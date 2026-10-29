@@ -4,8 +4,11 @@
 import { getState, subscribe, answerAvailability } from '../state.js';
 import { initLayout, renderInfoBox, waitingStateHtml } from '../layout.js';
 import { tablerIcon } from '../icons.js';
-import { escapeHtml, formatDateRange, formatShift, hoursLeft } from '../format.js';
+import {
+  escapeHtml, formatDateRange, formatShift, hoursLeft, talentName, declineReasonLabel,
+} from '../format.js';
 import { DECLINE_REASONS } from '../seed.js';
+import { t, onLangChange } from '../i18n.js';
 
 const RESPONSE_DEADLINE_HOURS = 24;
 
@@ -26,9 +29,9 @@ function announce(message) {
 
 function renderViewAs(talents) {
   viewAs.innerHTML = talents.map((talent) => {
-    const marker = talent.availability === 'pending' ? 'open' : 'answered ✓';
+    const marker = talent.availability === 'pending' ? t('avail.viewAsOpen') : t('avail.viewAsAnswered');
     const selected = talent.id === viewedTalentId ? ' selected' : '';
-    return `<option value="${escapeHtml(talent.id)}"${selected}>${escapeHtml(talent.name)} — ${marker}</option>`;
+    return `<option value="${escapeHtml(talent.id)}"${selected}>${escapeHtml(talentName(talent))} — ${escapeHtml(marker)}</option>`;
   }).join('');
 }
 
@@ -46,22 +49,22 @@ function answerAreaHtml(state) {
   const deadline = `
     <p class="deadline">
       ${tablerIcon('clock', { size: 16 })}
-      <span>Please answer within 24 h</span>
-      <strong>${left} h left</strong>
+      <span>${escapeHtml(t('avail.deadline'))}</span>
+      <strong>${escapeHtml(t('avail.hoursLeft', { hours: left }))}</strong>
     </p>`;
 
   if (declineOpen) {
     return `${deadline}
       <div class="answer-area">
         <div class="decline-panel">
-          <label class="form-label" for="decline-reason">Reason <span class="optional-mark">(optional)</span></label>
+          <label class="form-label" for="decline-reason">${escapeHtml(t('avail.reason'))} <span class="optional-mark">${escapeHtml(t('common.optional'))}</span></label>
           <select class="form-input" id="decline-reason">
-            <option value="">Prefer not to say</option>
-            ${DECLINE_REASONS.map((reason) => `<option>${escapeHtml(reason)}</option>`).join('')}
+            <option value="">${escapeHtml(t('avail.noReason'))}</option>
+            ${DECLINE_REASONS.map((reason) => `<option value="${escapeHtml(reason)}">${escapeHtml(declineReasonLabel(reason))}</option>`).join('')}
           </select>
           <div class="answer-buttons">
-            <button type="button" class="btn" data-action="cancel-decline">Back</button>
-            <button type="button" class="btn btn-critical-outline" data-action="confirm-decline">Confirm decline</button>
+            <button type="button" class="btn" data-action="cancel-decline">${escapeHtml(t('common.back'))}</button>
+            <button type="button" class="btn btn-critical-outline" data-action="confirm-decline">${escapeHtml(t('avail.confirmDecline'))}</button>
           </div>
         </div>
       </div>`;
@@ -71,48 +74,50 @@ function answerAreaHtml(state) {
     <div class="answer-area">
       <div class="answer-buttons">
         <button type="button" class="btn btn-lg btn-critical-outline" data-action="decline">
-          ${tablerIcon('x', { size: 18 })} Decline
+          ${tablerIcon('x', { size: 18 })} ${escapeHtml(t('avail.decline'))}
         </button>
         <button type="button" class="btn btn-lg btn-good" data-action="accept">
-          ${tablerIcon('check', { size: 18 })} Accept
+          ${tablerIcon('check', { size: 18 })} ${escapeHtml(t('avail.accept'))}
         </button>
       </div>
     </div>`;
 }
 
 function resultHtml(state, talent) {
-  const dashboardLink = '<a class="btn" href="dashboard.html">See it in the HR dashboard</a>';
+  const dashboardLink = `<a class="btn" href="dashboard.html">${escapeHtml(t('avail.toDashboard'))}</a>`;
 
   if (talent.availability === 'pending') {
     return `
       <div class="answer-result">
         <div class="answer-result-icon tone-stale">${tablerIcon('clock', { size: 26 })}</div>
-        <h2 class="answer-result-title" tabindex="-1">This offer is closed</h2>
-        <p class="answer-result-text">Enough talents have already answered. Thank you — no action needed.</p>
+        <h2 class="answer-result-title" tabindex="-1">${escapeHtml(t('avail.closedTitle'))}</h2>
+        <p class="answer-result-text">${escapeHtml(t('avail.closedText'))}</p>
       </div>`;
   }
 
   if (talent.availability === 'declined') {
-    const reason = talent.declineReason ? ` Reason: ${talent.declineReason}.` : '';
+    const reason = talent.declineReason
+      ? t('avail.declinedReason', { reason: declineReasonLabel(talent.declineReason) })
+      : '';
     return `
       <div class="answer-result">
         <div class="answer-result-icon tone-critical">${tablerIcon('x', { size: 26 })}</div>
-        <h2 class="answer-result-title" tabindex="-1">You declined this offer</h2>
-        <p class="answer-result-text">HR sees your answer immediately.${escapeHtml(reason)}</p>
+        <h2 class="answer-result-title" tabindex="-1">${escapeHtml(t('avail.declinedTitle'))}</h2>
+        <p class="answer-result-text">${escapeHtml(t('avail.seenByHr'))}${escapeHtml(reason)}</p>
         ${dashboardLink}
       </div>`;
   }
 
-  let title = 'You accepted — thank you!';
-  let text = 'HR sees your answer immediately. You will hear back once the client has approved the team.';
+  let title = t('avail.acceptedTitle');
+  let text = t('avail.acceptedText');
   if (talent.shortlisted && state.status === 'briefed') {
-    title = 'You are booked — briefing sent';
-    text = 'Your job briefing has been sent to you on the platform.';
+    title = t('avail.briefedTitle');
+    text = t('avail.briefedText');
   } else if (talent.shortlisted && state.status === 'booked') {
-    title = 'You are booked';
-    text = 'The client approved the team. Your briefing follows shortly.';
+    title = t('avail.bookedTitle');
+    text = t('avail.bookedText');
   } else if (talent.shortlisted) {
-    text = 'You are on the shortlist sent to the client for approval.';
+    text = t('avail.shortlistedText');
   }
   return `
     <div class="answer-result">
@@ -129,15 +134,15 @@ function jobCardHtml(state, talent) {
   return `
     <article class="card" aria-labelledby="job-title">
       <div class="job-card-head">
-        <p class="job-card-greeting">Hi ${escapeHtml(talent.name)}, new job offer for you</p>
+        <p class="job-card-greeting">${escapeHtml(t('avail.greeting', { name: talentName(talent) }))}</p>
         <h2 class="job-card-title" id="job-title">${escapeHtml(request.role)}</h2>
         <p class="job-card-client">${escapeHtml(request.company)}</p>
       </div>
       <ul class="job-facts">
-        ${jobFactHtml('map-pin', 'Location', request.location)}
-        ${jobFactHtml('calendar', 'Date', formatDateRange(request.startDate, request.endDate))}
-        ${jobFactHtml('clock', 'Shift', formatShift(request.shiftStart, request.shiftEnd))}
-        ${jobFactHtml('briefcase', 'Pay', 'As per contract')}
+        ${jobFactHtml('map-pin', t('field.location'), request.location)}
+        ${jobFactHtml('calendar', t('field.date'), formatDateRange(request.startDate, request.endDate))}
+        ${jobFactHtml('clock', t('field.shift'), formatShift(request.shiftStart, request.shiftEnd))}
+        ${jobFactHtml('briefcase', t('avail.pay'), t('avail.payValue'))}
       </ul>
       ${canAnswer ? answerAreaHtml(state) : resultHtml(state, talent)}
     </article>`;
@@ -152,12 +157,10 @@ function render() {
     viewedTalentId = null;
     content.innerHTML = `<div class="card">${waitingStateHtml({
       icon: 'device-mobile',
-      title: 'No job offers yet',
-      text: state.status === null
-        ? 'There is no staffing order yet. Start the demo as the client.'
-        : 'HR has not asked any talents for their availability yet.',
+      title: t('avail.emptyTitle'),
+      text: state.status === null ? t('avail.emptyNoOrder') : t('avail.emptyNotAsked'),
       linkPage: state.status === null ? 'request' : 'dashboard',
-      linkLabel: state.status === null ? 'Open the request form' : 'Open the HR dashboard',
+      linkLabel: state.status === null ? t('common.openRequestForm') : t('avail.openDashboard'),
     })}</div>`;
     return;
   }
@@ -190,7 +193,7 @@ content.addEventListener('click', (event) => {
   const { action } = button.dataset;
   if (action === 'accept') {
     answerAvailability(viewedTalentId, 'accepted');
-    announce('Offer accepted.');
+    announce(t('avail.announceAccepted'));
     focusIn('.answer-result-title');
   } else if (action === 'decline') {
     declineOpen = true;
@@ -204,7 +207,7 @@ content.addEventListener('click', (event) => {
     const reason = content.querySelector('#decline-reason').value || null;
     declineOpen = false;
     answerAvailability(viewedTalentId, 'declined', reason);
-    announce('Offer declined.');
+    announce(t('avail.announceDeclined'));
     focusIn('.answer-result-title');
   }
 });
@@ -216,10 +219,16 @@ viewAs.addEventListener('change', () => {
 });
 
 initLayout('availability');
-renderInfoBox(document.getElementById('info-box'), {
-  replaces: '“Check availability” and waiting for e-mail replies.',
-  solves: 'Slow confirmation — talents answer in the app within 24 h.',
-  tasks: 'HR “Request availability” → “Check availability response”.',
-});
+renderInfoBox(document.getElementById('info-box'), 'availability');
 render();
 subscribe(render);
+
+// Keep a decline reason picked before the switch.
+onLangChange(() => {
+  const reasonSelect = content.querySelector('#decline-reason');
+  const reason = reasonSelect ? reasonSelect.value : '';
+  render();
+  if (reason) {
+    content.querySelector('#decline-reason').value = reason;
+  }
+});

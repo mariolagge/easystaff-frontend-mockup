@@ -28,11 +28,11 @@ Success criterion: a viewer without BPM knowledge can say, after one click-throu
 |---|---|
 | C1 | Vanilla HTML, CSS and JavaScript. No framework, no build step, no package manager. |
 | C2 | No external requests: no CDNs, web fonts, analytics or images from other domains. Runs offline and on GitHub Pages. |
-| C3 | Language of the UI: **English**. |
+| C3 | Languages of the UI: **German** (default) and **English**, switched with the "EN \| DE" control in the header without a reload. The choice is stored in `localStorage` under `matchTalentsLang`, separate from the demo case. All UI text lives in `js/i18n/de.js` and `js/i18n/en.js`; German uses formal "Sie" and the terms in `GLOSSARY.md`. |
 | C4 | Company name "easystaff" may appear as text. No original logo, colours or screenshots of easystaff. |
 | C5 | A banner on every page: **"Concept mockup – no real data"**, linking to the disclaimer on the start page. |
 | C6 | All people, clients and addresses are fictional and obviously so (e.g. "Demo Client GmbH"). |
-| C7 | No KPI numbers are invented. If the mockup shows impact numbers, copy them from `docs/data/kpis.json` → `rendered.en` (cycle time 6.9 → 3.3 working days, −52 %). |
+| C7 | No KPI numbers are invented. If the mockup shows impact numbers, copy them from `docs/data/kpis.json` → `rendered.de` / `rendered.en` into the matching dictionary in `js/i18n/` (cycle time 6,9 → 3,3 Arbeitstage / 6.9 → 3.3 working days, −52 %). |
 | C8 | Works in current Chrome, Edge, Firefox and Safari; no console errors. |
 | C9 | Accessible: WCAG 2.1 AA contrast, every input has a `<label>`, full keyboard use, visible focus, validation errors announced via `aria-live`. |
 
@@ -151,17 +151,17 @@ One object in `localStorage` under the key `matchTalentsDemo`. Wrap every read a
 
 ```js
 {
-  version: 1,
+  version: 2,
   status: "submitted",
   request: {
     company: "Demo Client GmbH", email: "orders@demo-client.example",
-    serviceArea: "Hospitality", role: "Event host", staff: 3,
-    qualifications: ["English", "Event experience"], location: "Vienna",
+    serviceArea: "hospitality", role: "Event-Host", staff: 3,
+    qualifications: ["english", "event_experience"], location: "Wien",
     startDate: "2027-03-12", endDate: "2027-03-12", shiftStart: "17:00", shiftEnd: "23:00",
     notes: "", submittedAt: "ISO timestamp"
   },
   talents: [
-    { id: "t1", name: "Talent A (demo)", qualifications: ["English", "Event experience"],
+    { id: "t1", qualifications: ["english", "event_experience"],
       selected: true, availability: "pending", answeredAt: null, declineReason: null }
   ],
   approval: { decision: null, comment: "", decidedAt: null },
@@ -169,7 +169,8 @@ One object in `localStorage` under the key `matchTalentsDemo`. Wrap every read a
 }
 ```
 
-- Seed data: 6 fictional talents in `app.js`; some do not match all qualifications, so the HR selection is meaningful.
+- Seed data: 6 fictional talents in `seed.js`; some do not match all qualifications, so the HR selection is meaningful.
+- Service area, qualifications and decline reason are stored as keys, and talents carry no display text: names, roles, profiles and option labels come from `js/i18n/` at render time, so a language switch never changes the stored case. Free text the user types (company, role, location, notes, comment) is stored as typed.
 - Dates in the seed data are examples, not process data.
 
 ## 8. File structure
@@ -185,6 +186,9 @@ mockup/
 └─ js/
    ├─ state.js        load/save/reset, status transitions (single source of truth)
    ├─ seed.js         demo talents and default request
+   ├─ i18n.js         t(), language switch, data-i18n attributes in static HTML
+   ├─ i18n/de.js      German UI text (default)
+   ├─ i18n/en.js      English UI text
    └─ pages/*.js      one small module per page
 ```
 

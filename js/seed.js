@@ -1,36 +1,33 @@
 // Demo data. Everything here is fictional (SPEC C6); dates are examples, not process data.
+// Options and talents are stable keys; their display text lives in js/i18n/*.js.
+
+import { t } from './i18n.js';
 
 // Fill in once the repository is pushed to GitHub.
 export const REPO_URL = 'https://github.com/';
 
-export const SERVICE_AREAS = ['Promotion', 'POS', 'Gastro', 'Hospitality', 'Security', 'Medical', 'HR'];
+export const SERVICE_AREAS = ['promotion', 'pos', 'gastro', 'hospitality', 'security', 'medical', 'hr'];
 
 export const QUALIFICATIONS = [
-  'English',
-  'German',
-  'Event experience',
-  'Food hygiene certificate',
-  'First aid',
-  'Driving licence',
+  'english',
+  'german',
+  'event_experience',
+  'food_hygiene',
+  'first_aid',
+  'driving_licence',
 ];
 
-export const DECLINE_REASONS = [
-  'Other assignment',
-  'Not available on this date',
-  'Location too far away',
-  'Other reason',
-];
+export const DECLINE_REASONS = ['other_assignment', 'not_available', 'too_far', 'other'];
 
 // The SPEC §7 example request. Dates are filled in relative to today by demoRequest(),
-// so the form's "start ≥ today" rule never rejects the demo data.
+// so the form's "start ≥ today" rule never rejects the demo data. Role and location are
+// free text, so they are filled in the current language.
 const DEMO_REQUEST = {
   company: 'Demo Client GmbH',
   email: 'orders@demo-client.example',
-  serviceArea: 'Hospitality',
-  role: 'Event host',
+  serviceArea: 'hospitality',
   staff: 3,
-  qualifications: ['English', 'Event experience'],
-  location: 'Vienna',
+  qualifications: ['english', 'event_experience'],
   shiftStart: '17:00',
   shiftEnd: '23:00',
   notes: '',
@@ -45,53 +42,42 @@ function isoDateInDays(days) {
 
 export function demoRequest() {
   const day = isoDateInDays(14);
-  return { ...DEMO_REQUEST, qualifications: [...DEMO_REQUEST.qualifications], startDate: day, endDate: day };
+  return {
+    ...DEMO_REQUEST,
+    role: t('demo.role'),
+    location: t('demo.location'),
+    qualifications: [...DEMO_REQUEST.qualifications],
+    startDate: day,
+    endDate: day,
+  };
 }
 
-// Six talents. D lacks event experience and F lacks English, so HR's selection matters
-// for the demo request. `simulatedAnswer` is what "Simulate answers (demo)" records.
+// Six talents; name, role and profile are looked up by id (talent.<id>.* in js/i18n).
+// D lacks event experience and F lacks English, so HR's selection matters for the demo
+// request. `simulatedAnswer` is what "Simulate answers (demo)" records.
 export const TALENTS = [
   {
-    id: 't1', name: 'Talent A (demo)', role: 'Event host',
-    qualifications: ['English', 'German', 'Event experience'],
-    profile: 'Five seasons of trade-fair hosting, calm under pressure.',
+    id: 't1', qualifications: ['english', 'german', 'event_experience'],
     simulatedAnswer: { availability: 'accepted' },
   },
   {
-    id: 't2', name: 'Talent B (demo)', role: 'Event host',
-    qualifications: ['English', 'Event experience', 'First aid'],
-    profile: 'Gala and conference host with first-aid training.',
+    id: 't2', qualifications: ['english', 'event_experience', 'first_aid'],
     simulatedAnswer: { availability: 'accepted' },
   },
   {
-    id: 't3', name: 'Talent C (demo)', role: 'Hostess / guest service',
-    qualifications: ['English', 'German', 'Event experience', 'Food hygiene certificate'],
-    profile: 'Guest service and catering support at large venues.',
+    id: 't3', qualifications: ['english', 'german', 'event_experience', 'food_hygiene'],
     simulatedAnswer: { availability: 'accepted' },
   },
   {
-    id: 't4', name: 'Talent D (demo)', role: 'Promoter',
-    qualifications: ['English', 'German', 'Driving licence'],
-    profile: 'Retail promotions; new to event work.',
+    id: 't4', qualifications: ['english', 'german', 'driving_licence'],
     simulatedAnswer: { availability: 'accepted' },
   },
   {
-    id: 't5', name: 'Talent E (demo)', role: 'Event host',
-    qualifications: ['English', 'Event experience'],
-    profile: 'Bilingual moderator for product launches.',
-    simulatedAnswer: { availability: 'declined', declineReason: 'Other assignment' },
+    id: 't5', qualifications: ['english', 'event_experience'],
+    simulatedAnswer: { availability: 'declined', declineReason: 'other_assignment' },
   },
   {
-    id: 't6', name: 'Talent F (demo)', role: 'Event staff',
-    qualifications: ['German', 'Event experience', 'Food hygiene certificate'],
-    profile: 'Backstage and catering crew lead.',
+    id: 't6', qualifications: ['german', 'event_experience', 'food_hygiene'],
     simulatedAnswer: { availability: 'accepted' },
   },
 ];
-
-// Copied from docs/data/kpis.json → rendered.en (SPEC C7). Update by hand if that file changes.
-export const KPI_TEXT = {
-  cycleTimeAsIs: '6.9 working days',
-  cycleTimeToBe: '3.3 working days',
-  cycleTimeChange: '−52 %',
-};

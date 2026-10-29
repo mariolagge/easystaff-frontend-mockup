@@ -1,34 +1,33 @@
-// Display text and value formatting. State holds raw values; every label shown for a
-// status, availability or task comes from the maps below. Task names follow the To-Be
-// model (docs/images/to-be-process-model.png) and GLOSSARY.md.
+// Display text and value formatting. State holds raw values and keys; every label shown
+// for a status, availability, option or talent comes from js/i18n through the helpers
+// below. Task names follow the To-Be model (docs/images/to-be-process-model.png) and
+// GLOSSARY.md.
 
 import { tablerIcon } from './icons.js';
+import { t, locale } from './i18n.js';
 
 export const EM_DASH = '—';
 
-// task: the To-Be BPMN task name shown everywhere a status is labelled (SPEC §6).
-// Two tasks joined by " · " share one status. tone: colour family of the badge.
+// tone: colour family of the badge. The label is t('status.<status>'), the To-Be BPMN task
+// name shown everywhere a status is labelled (SPEC §6); two tasks joined by " · " share
+// one status.
 export const STATUS_META = {
-  submitted: { task: 'Client request received', tone: 'accent' },
-  validated: { task: 'Validate requirements list', tone: 'accent' },
-  availability_requested: {
-    task: 'Search suitable talents · Request availability', tone: 'accent',
-  },
-  responses_complete: { task: 'Check availability response', tone: 'accent' },
-  approval_requested: {
-    task: 'Create final talents list · Request customer approval', tone: 'accent',
-  },
-  approved: { task: 'Check approval decision (yes)', tone: 'good' },
-  booked: { task: 'Book talents', tone: 'good' },
-  briefed: { task: 'Send briefings', tone: 'good' },
-  changes_requested: { task: 'Check approval decision (no)', tone: 'watch' },
+  submitted: { tone: 'accent' },
+  validated: { tone: 'accent' },
+  availability_requested: { tone: 'accent' },
+  responses_complete: { tone: 'accent' },
+  approval_requested: { tone: 'accent' },
+  approved: { tone: 'good' },
+  booked: { tone: 'good' },
+  briefed: { tone: 'good' },
+  changes_requested: { tone: 'watch' },
 };
 
 export const AVAILABILITY_META = {
-  not_requested: { label: 'Not asked', tone: 'stale' },
-  pending: { label: 'Pending', tone: 'watch' },
-  accepted: { label: 'Accepted', tone: 'good' },
-  declined: { label: 'Declined', tone: 'critical' },
+  not_requested: { tone: 'stale' },
+  pending: { tone: 'watch' },
+  accepted: { tone: 'good' },
+  declined: { tone: 'critical' },
 };
 
 export function escapeHtml(value) {
@@ -40,6 +39,34 @@ export function escapeHtml(value) {
     .replace(/'/g, '&#39;');
 }
 
+// ---------- labels for keys ----------
+
+export function serviceAreaLabel(key) {
+  return t(`serviceArea.${key}`);
+}
+
+export function qualificationLabel(key) {
+  return t(`qualification.${key}`);
+}
+
+export function declineReasonLabel(key) {
+  return t(`declineReason.${key}`);
+}
+
+export function talentName(talent) {
+  return t(`talent.${talent.id}.name`);
+}
+
+export function talentRole(talent) {
+  return t(`talent.${talent.id}.role`);
+}
+
+export function talentProfile(talent) {
+  return t(`talent.${talent.id}.profile`);
+}
+
+// ---------- dates and times ----------
+
 // "2027-03-12" is a calendar date, not an instant — parse it in local time.
 function parseIsoDate(isoDate) {
   const [year, month, day] = isoDate.split('-').map(Number);
@@ -50,7 +77,7 @@ export function formatDate(isoDate) {
   if (!isoDate) {
     return EM_DASH;
   }
-  return parseIsoDate(isoDate).toLocaleDateString('en-GB', {
+  return parseIsoDate(isoDate).toLocaleDateString(locale(), {
     weekday: 'short', day: 'numeric', month: 'short', year: 'numeric',
   });
 }
@@ -72,7 +99,7 @@ export function formatTimeOfDay(isoInstant) {
   if (!isoInstant) {
     return EM_DASH;
   }
-  return new Date(isoInstant).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+  return new Date(isoInstant).toLocaleTimeString(locale(), { hour: '2-digit', minute: '2-digit' });
 }
 
 // Full hours left of a deadline that started at isoInstant, never below zero
@@ -85,8 +112,10 @@ export function hoursLeft(isoInstant, deadlineHours) {
   return Math.max(0, Math.floor(deadlineHours - elapsedHours));
 }
 
+// ---------- pills and chips ----------
+
 export function statusLabel(status) {
-  return status ? STATUS_META[status].task : 'No open order';
+  return status ? t(`status.${status}`) : t('status.none');
 }
 
 export function pillHtml(label, tone, icon = null, extraClass = '') {
@@ -97,21 +126,21 @@ export function pillHtml(label, tone, icon = null, extraClass = '') {
 
 export function statusPillHtml(status) {
   return status
-    ? pillHtml(STATUS_META[status].task, STATUS_META[status].tone, null, 'is-task')
-    : pillHtml('No open order', 'stale');
+    ? pillHtml(statusLabel(status), STATUS_META[status].tone, null, 'is-task')
+    : pillHtml(statusLabel(null), 'stale');
 }
 
 export function availabilityPillHtml(availability) {
-  const meta = AVAILABILITY_META[availability] || AVAILABILITY_META.not_requested;
-  return pillHtml(meta.label, meta.tone);
+  const key = AVAILABILITY_META[availability] ? availability : 'not_requested';
+  return pillHtml(t(`availability.${key}`), AVAILABILITY_META[key].tone);
 }
 
 // Qualification chips; the ones the request asks for are emphasised.
 export function qualificationChipsHtml(qualifications, requested = []) {
-  return `<ul class="chip-list" aria-label="Qualifications">${qualifications
+  return `<ul class="chip-list" aria-label="${escapeHtml(t('field.qualifications'))}">${qualifications
     .map((qualification) => {
       const isRequested = requested.includes(qualification);
-      return `<li class="chip${isRequested ? ' chip-match' : ''}">${escapeHtml(qualification)}</li>`;
+      return `<li class="chip${isRequested ? ' chip-match' : ''}">${escapeHtml(qualificationLabel(qualification))}</li>`;
     })
     .join('')}</ul>`;
 }

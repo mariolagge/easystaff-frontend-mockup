@@ -3,22 +3,22 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Request staff · Match Talents Platform</title>
+  <title data-i18n="request.title">Request staff · Match Talents Platform</title>
   <link rel="icon" href="data:," />
   <link rel="stylesheet" href="css/style.css" />
   <script type="module" src="js/pages/request.js"></script>
 </head>
 <body>
-  <a class="skip-link" href="#main">Skip to content</a>
+  <a class="skip-link" href="#main" data-i18n="common.skip">Skip to content</a>
   <div class="app">
     <header id="site-header"></header>
 
     <main id="main" tabindex="-1">
       <div class="page-head">
         <div>
-          <p class="eyebrow"><span data-tabler-icon="briefcase" data-tabler-size="13"></span> Client · Screen 1</p>
-          <h1 class="page-title">Staffing request</h1>
-          <p class="page-lead">Tell us who you need. HR receives your request right away, with no e-mail and no handover through Sales.</p>
+          <p class="eyebrow"><span data-tabler-icon="briefcase" data-tabler-size="13"></span> <span data-i18n="request.eyebrow">Client · Screen 1</span></p>
+          <h1 class="page-title" data-i18n="request.heading">Staffing request</h1>
+          <p class="page-lead" data-i18n="request.lead">Tell us who you need. HR receives your request right away, with no e-mail and no handover through Sales.</p>
         </div>
         <section id="info-box"></section>
       </div>
@@ -27,60 +27,60 @@
       <section class="card" id="request-form-card" aria-labelledby="form-title" hidden>
         <div class="card-header">
           <h2 class="card-title" id="form-title">
-            <span data-tabler-icon="clipboard-check" data-tabler-size="14"></span> New request
+            <span data-tabler-icon="clipboard-check" data-tabler-size="14"></span> <span data-i18n="request.formTitle">New request</span>
           </h2>
-          <button type="button" class="btn btn-ghost" id="fill-demo-btn">Fill with demo data</button>
+          <button type="button" class="btn btn-ghost" id="fill-demo-btn" data-i18n="request.fillDemo">Fill with demo data</button>
         </div>
         <form class="card-body" id="request-form" novalidate>
-          <p class="field-hint form-intro">All fields are required unless marked optional.</p>
+          <p class="field-hint form-intro" data-i18n="request.intro">All fields are required unless marked optional.</p>
           <div class="form-grid">
             <div class="field">
-              <label class="form-label" for="company">Company</label>
+              <label class="form-label" for="company" data-i18n="request.label.company">Company</label>
               <input class="form-input" type="text" id="company" name="company" value="Demo Client GmbH"
                 autocomplete="organization" required aria-describedby="company-error" />
               <p class="field-error" id="company-error" aria-live="polite"></p>
             </div>
 
             <div class="field">
-              <label class="form-label" for="email">Contact e-mail</label>
+              <label class="form-label" for="email" data-i18n="request.label.email">Contact e-mail</label>
               <input class="form-input" type="email" id="email" name="email" autocomplete="email"
                 required aria-describedby="email-error" />
               <p class="field-error" id="email-error" aria-live="polite"></p>
             </div>
 
             <div class="field">
-              <label class="form-label" for="serviceArea">Service area</label>
+              <label class="form-label" for="serviceArea" data-i18n="request.label.serviceArea">Service area</label>
               <select class="form-input" id="serviceArea" name="serviceArea" required aria-describedby="serviceArea-error">
-                <option value="">Choose a service area…</option>
+                <option value="" data-i18n="request.serviceAreaPlaceholder">Choose a service area…</option>
               </select>
               <p class="field-error" id="serviceArea-error" aria-live="polite"></p>
             </div>
 
             <div class="field">
-              <label class="form-label" for="role">Role / job title</label>
+              <label class="form-label" for="role" data-i18n="request.label.role">Role / job title</label>
               <input class="form-input" type="text" id="role" name="role" required
                 aria-describedby="role-hint role-error" />
-              <p class="field-hint" id="role-hint">3–60 characters, e.g. “Event host”.</p>
+              <p class="field-hint" id="role-hint" data-i18n="request.roleHint">3–60 characters, e.g. “Event host”.</p>
               <p class="field-error" id="role-error" aria-live="polite"></p>
             </div>
 
             <div class="field">
-              <label class="form-label" for="staff">Number of staff</label>
+              <label class="form-label" for="staff" data-i18n="request.label.staff">Number of staff</label>
               <input class="form-input" type="number" id="staff" name="staff" min="1" max="50" step="1"
                 inputmode="numeric" required aria-describedby="staff-hint staff-error" />
-              <p class="field-hint" id="staff-hint">Between 1 and 50.</p>
+              <p class="field-hint" id="staff-hint" data-i18n="request.staffHint">Between 1 and 50.</p>
               <p class="field-error" id="staff-error" aria-live="polite"></p>
             </div>
 
             <div class="field">
-              <label class="form-label" for="location">Location (city)</label>
+              <label class="form-label" for="location" data-i18n="request.label.location">Location (city)</label>
               <input class="form-input" type="text" id="location" name="location" autocomplete="address-level2"
                 required aria-describedby="location-error" />
               <p class="field-error" id="location-error" aria-live="polite"></p>
             </div>
 
             <fieldset class="field field-wide" id="qualifications" aria-describedby="qualifications-error">
-              <legend class="fieldset-legend">Required qualifications <span class="optional-mark">(choose at least one)</span></legend>
+              <legend class="fieldset-legend" data-i18n-html="request.label.qualifications">Required qualifications <span class="optional-mark">(choose at least one)</span></legend>
               <div class="checkbox-grid" id="qualifications-options"></div>
               <p class="field-error" id="qualifications-error" aria-live="polite"></p>
             </fieldset>
@@ -88,11 +88,11 @@
             <div class="field">
               <div class="field-pair">
                 <div class="field">
-                  <label class="form-label" for="startDate">Start date</label>
+                  <label class="form-label" for="startDate" data-i18n="request.label.startDate">Start date</label>
                   <input class="form-input" type="date" id="startDate" name="startDate" required aria-describedby="startDate-error" />
                 </div>
                 <div class="field">
-                  <label class="form-label" for="endDate">End date</label>
+                  <label class="form-label" for="endDate" data-i18n="request.label.endDate">End date</label>
                   <input class="form-input" type="date" id="endDate" name="endDate" required aria-describedby="endDate-error" />
                 </div>
               </div>
@@ -103,11 +103,11 @@
             <div class="field">
               <div class="field-pair">
                 <div class="field">
-                  <label class="form-label" for="shiftStart">Shift start</label>
+                  <label class="form-label" for="shiftStart" data-i18n="request.label.shiftStart">Shift start</label>
                   <input class="form-input" type="time" id="shiftStart" name="shiftStart" required aria-describedby="shiftStart-error" />
                 </div>
                 <div class="field">
-                  <label class="form-label" for="shiftEnd">Shift end</label>
+                  <label class="form-label" for="shiftEnd" data-i18n="request.label.shiftEnd">Shift end</label>
                   <input class="form-input" type="time" id="shiftEnd" name="shiftEnd" required aria-describedby="shiftEnd-error" />
                 </div>
               </div>
@@ -116,7 +116,7 @@
             </div>
 
             <div class="field field-wide">
-              <label class="form-label" for="notes">Notes <span class="optional-mark">(optional)</span></label>
+              <label class="form-label" for="notes" data-i18n-html="request.label.notes">Notes <span class="optional-mark">(optional)</span></label>
               <textarea class="form-input" id="notes" name="notes" aria-describedby="notes-count notes-error"></textarea>
               <p class="field-hint" id="notes-count">0 / 500 characters</p>
               <p class="field-error" id="notes-error" aria-live="polite"></p>
@@ -126,7 +126,7 @@
           <div class="form-actions">
             <p class="form-summary" id="form-summary" aria-live="assertive"></p>
             <button type="submit" class="btn btn-primary btn-lg">
-              <span data-tabler-icon="send" data-tabler-size="16"></span> Submit request
+              <span data-tabler-icon="send" data-tabler-size="16"></span> <span data-i18n="request.submit">Submit request</span>
             </button>
           </div>
         </form>
@@ -137,18 +137,18 @@
         <div class="card-body stack">
           <div class="alert alert-good" id="request-confirmation" role="status" hidden>
             <span data-tabler-icon="circle-check" data-tabler-size="18"></span>
-            <span><strong>Request received.</strong> You will receive a proposal on the platform.</span>
+            <span data-i18n-html="request.confirmation"><strong>Request received.</strong> You will receive a proposal on the platform.</span>
           </div>
           <div class="header-bar">
-            <h2 class="next-action-title" id="summary-title" tabindex="-1">Your staffing request</h2>
+            <h2 class="next-action-title" id="summary-title" tabindex="-1" data-i18n="request.summaryTitle">Your staffing request</h2>
             <span id="summary-status"></span>
           </div>
           <dl class="data-list summary-grid" id="request-summary"></dl>
           <div class="btn-row">
             <a class="btn btn-primary" href="dashboard.html">
-              <span data-tabler-icon="layout-dashboard" data-tabler-size="15"></span> Switch to the HR view
+              <span data-tabler-icon="layout-dashboard" data-tabler-size="15"></span> <span data-i18n="common.switchToHr">Switch to the HR view</span>
             </a>
-            <a class="btn" href="index.html">Reset on the start page to file a new request</a>
+            <a class="btn" href="index.html" data-i18n="request.resetHint">Reset on the start page to file a new request</a>
           </div>
         </div>
       </section>
