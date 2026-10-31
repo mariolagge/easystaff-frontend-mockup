@@ -574,11 +574,9 @@ a:hover {
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  font-size: 0.78rem;
+  font-size: 0.9rem;
   font-weight: 650;
-  text-transform: uppercase;
-  letter-spacing: 0.07em;
-  color: var(--text-tertiary);
+  color: var(--text-secondary);
 }
 
 .card-meta {
