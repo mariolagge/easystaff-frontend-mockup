@@ -3,8 +3,7 @@
 
 import { t } from './i18n.js';
 
-// Fill in once the repository is pushed to GitHub.
-export const REPO_URL = 'https://github.com/';
+export const REPO_URL = 'https://github.com/mariolagge/match-talents-process-redesign.git';
 
 export const SERVICE_AREAS = ['promotion', 'pos', 'gastro', 'hospitality', 'security', 'medical', 'hr'];
 

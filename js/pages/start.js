@@ -1,4 +1,4 @@
-// Screen 0: start page — disclaimer, the KPI line, Start / Reset, and the order status flow.
+// Screen 0: start page — the KPI line, Start / Reset, and the order status flow.
 
 import { getState, subscribe, reset } from '../state.js';
 import { initLayout } from '../layout.js';

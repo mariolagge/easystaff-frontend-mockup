@@ -5,6 +5,7 @@
 import { getState, subscribe, isStorageAvailable } from './state.js';
 import { tablerIcon, initTablerIcons } from './icons.js';
 import { escapeHtml } from './format.js';
+import { REPO_URL } from './seed.js';
 import { t, getLang, setLang, onLangChange, applyStatic } from './i18n.js';
 
 const NAV_ITEMS = [
@@ -90,7 +91,7 @@ export function initLayout(currentPage) {
     <div class="concept-banner">
       ${tablerIcon('info-circle', { size: 14 })}
       <span><strong data-i18n="layout.banner"></strong>
-      <a href="index.html#disclaimer" data-i18n="layout.bannerLink"></a></span>
+      <a href="${REPO_URL}" target="_blank" rel="noopener noreferrer" data-i18n="layout.bannerLink"></a></span>
     </div>
     <div class="site-nav-row">
       <nav class="role-nav" data-i18n-attr="aria-label:layout.navLabel">
