@@ -23,8 +23,8 @@ export default {
   'field.notes': 'Notes',
 
   // ---------- layout ----------
-  'layout.banner': 'Concept mockup – no real data.',
-  'layout.bannerLink': 'Read the disclaimer',
+  'layout.banner': 'Concept mockup – no real data, no backend.',
+  'layout.bannerLink': 'Project on GitHub',
   'layout.navLabel': 'Switch role (demo)',
   'layout.nextStep': ' (next step)',
   'layout.langLabel': 'Language',
@@ -133,16 +133,15 @@ export default {
   'talent.t6.role': 'Event staff',
   'talent.t6.profile': 'Backstage and catering crew lead.',
 
-  // Copied from docs/data/kpis.json → rendered.en (SPEC C7). Update by hand if that file changes.
+  // Copied from data/kpis.json (repo root) → rendered.en (SPEC C7). Update by hand if that file changes.
   'kpi.cycleTimeAsIs': '6.9 working days',
   'kpi.cycleTimeToBe': '3.3 working days',
   'kpi.cycleTimeChange': '−52 %',
 
   // ---------- start page ----------
-  'start.title': 'Match Talents Platform — concept mockup',
+  'start.title': 'Match Talents Platform',
   'start.description': 'Clickable concept mockup of the To-Be \'Match Talents\' process: one staffing order from request to briefed team.',
-  'start.eyebrow': 'Case study “Match Talents” · To-Be process',
-  'start.heroTitle': 'Match Talents Platform <span>— concept mockup</span>',
+  'start.heroTitle': 'Match Talents Platform',
   'start.heroText': 'Today a staffing order travels by e-mail: Sales copies the client\'s request into the CRM, HR writes to every talent and waits for replies, then e-mails the client and waits again. Most of the cycle time is waiting. On the platform, the client and the talents answer directly, and HR sees every order\'s status in one place.',
   'start.kpiLabel': 'Calculated cycle time per order',
   'start.startDemo': 'Start demo',
@@ -160,12 +159,6 @@ export default {
   'start.howTitle': 'How to click through',
   'start.howText': 'Use the role switcher at the top. A <span class="sr-only">yellow</span> dot marks the screen with the next step. Open the talent and HR screens in two tabs to watch answers arrive live.',
   'start.readme': 'Project README on GitHub',
-  'start.disclaimerTitle': 'Disclaimer',
-  'start.disclaimerLead': '<strong>This is a concept mockup, not a product.</strong> It shows a proposed process redesign from a university case study about the staffing agency easystaff.',
-  'start.disclaimer1': 'All people, clients and addresses are fictional (e.g. “Demo Client GmbH”, “Talent A (demo)”).',
-  'start.disclaimer2': 'There is no backend, login, e-mail or push notification. Everything is stored in your browser only.',
-  'start.disclaimer3': 'Talents are selected by HR by hand, as in the To-Be model — there is no matching algorithm.',
-  'start.disclaimer4': 'Not affiliated with easystaff; no easystaff logo, colours or screenshots are used.',
 
   // ---------- screen 1: request ----------
   'request.title': 'Request staff · Match Talents Platform',

@@ -23,8 +23,8 @@ export default {
   'field.notes': 'Anmerkungen',
 
   // ---------- layout ----------
-  'layout.banner': 'Konzept-Mockup – keine echten Daten.',
-  'layout.bannerLink': 'Hinweise lesen',
+  'layout.banner': 'Konzept-Mockup – keine echten Daten, kein Backend.',
+  'layout.bannerLink': 'Projekt auf GitHub',
   'layout.navLabel': 'Rolle wechseln (Demo)',
   'layout.nextStep': ' (nächster Schritt)',
   'layout.langLabel': 'Sprache',
@@ -133,16 +133,15 @@ export default {
   'talent.t6.role': 'Eventpersonal',
   'talent.t6.profile': 'Leitet Backstage- und Catering-Teams.',
 
-  // Copied from docs/data/kpis.json → rendered.de (SPEC C7). Update by hand if that file changes.
+  // Copied from data/kpis.json (repo root) → rendered.de (SPEC C7). Update by hand if that file changes.
   'kpi.cycleTimeAsIs': '6,9 Arbeitstage',
   'kpi.cycleTimeToBe': '3,3 Arbeitstage',
   'kpi.cycleTimeChange': '−52 %',
 
   // ---------- start page ----------
-  'start.title': 'Match-Talents-Plattform – Konzept-Mockup',
+  'start.title': 'Match Talents Plattform',
   'start.description': 'Klickbares Konzept-Mockup des Soll-Prozesses „Match Talents“: ein Personalauftrag von der Anfrage bis zum gebrieften Team.',
-  'start.eyebrow': 'Fallstudie „Match Talents“ · Soll-Prozess',
-  'start.heroTitle': 'Match-Talents-Plattform <span>– Konzept-Mockup</span>',
+  'start.heroTitle': 'Match Talents Plattform',
   'start.heroText': 'Heute läuft ein Personalauftrag per E-Mail: Der Vertrieb überträgt die Anfrage des Kunden ins CRM, HR schreibt jedes Talent an und wartet auf Antworten, dann schreibt HR dem Kunden und wartet erneut. Der Großteil der Durchlaufzeit ist Wartezeit. Auf der Plattform antworten Kunde und Talente direkt, und HR sieht den Status jedes Auftrags an einem Ort.',
   'start.kpiLabel': 'Berechnete Durchlaufzeit pro Auftrag',
   'start.startDemo': 'Demo starten',
@@ -160,15 +159,9 @@ export default {
   'start.howTitle': 'So klicken Sie sich durch',
   'start.howText': 'Wechseln Sie die Rolle über die Leiste oben. Ein <span class="sr-only">gelber</span> Punkt markiert die Ansicht mit dem nächsten Schritt. Öffnen Sie die Talent- und die HR-Ansicht in zwei Tabs, um Antworten live eintreffen zu sehen.',
   'start.readme': 'Projekt-README auf GitHub',
-  'start.disclaimerTitle': 'Hinweise',
-  'start.disclaimerLead': '<strong>Dies ist ein Konzept-Mockup, kein Produkt.</strong> Es zeigt ein vorgeschlagenes Prozess-Redesign aus einer universitären Fallstudie über die Personalagentur easystaff.',
-  'start.disclaimer1': 'Alle Personen, Kunden und Adressen sind fiktiv (z. B. „Demo Client GmbH“, „Talent A (Demo)“).',
-  'start.disclaimer2': 'Es gibt kein Backend, kein Login, keine E-Mails und keine Push-Benachrichtigungen. Alles wird nur in Ihrem Browser gespeichert.',
-  'start.disclaimer3': 'Talente werden wie im Soll-Modell von HR manuell ausgewählt – es gibt keinen Matching-Algorithmus.',
-  'start.disclaimer4': 'Keine Verbindung zu easystaff; es werden kein Logo, keine Farben und keine Screenshots von easystaff verwendet.',
 
   // ---------- screen 1: request ----------
-  'request.title': 'Personal anfragen · Match-Talents-Plattform',
+  'request.title': 'Personal anfragen · Match Talents Plattform',
   'request.eyebrow': 'Kunde · Ansicht 1',
   'request.heading': 'Personalanfrage',
   'request.lead': 'Sagen Sie uns, wen Sie brauchen. HR erhält Ihre Anfrage sofort – ohne E-Mail und ohne Übergabe über den Vertrieb.',
@@ -219,7 +212,7 @@ export default {
   'error.notes.tooLong': 'Anmerkungen dürfen höchstens {max} Zeichen lang sein.',
 
   // ---------- screen 2: availability ----------
-  'avail.title': 'Jobangebot · Match-Talents-Plattform',
+  'avail.title': 'Jobangebot · Match Talents Plattform',
   'avail.eyebrow': 'Talent · Ansicht 2 · Smartphone',
   'avail.heading': 'Verfügbarkeitsabfrage',
   'avail.lead': 'Das Talent erhält das Angebot in der App und antwortet mit einem Tippen – innerhalb von 24 Stunden.',
@@ -257,7 +250,7 @@ export default {
   'avail.announceDeclined': 'Angebot abgelehnt.',
 
   // ---------- screen 3: approval ----------
-  'approval.title': 'Team freigeben · Match-Talents-Plattform',
+  'approval.title': 'Team freigeben · Match Talents Plattform',
   'approval.eyebrow': 'Kunde · Ansicht 3',
   'approval.heading': 'Freigabe der Endauswahl',
   'approval.lead': 'Alle vorgeschlagenen Talente haben ihre Verfügbarkeit bereits bestätigt. Geben Sie das Team frei oder bitten Sie HR um Änderungen.',
@@ -289,7 +282,7 @@ export default {
   'approval.announceChanges': 'Änderungswunsch an HR gesendet.',
 
   // ---------- screen 4: dashboard ----------
-  'dashboard.title': 'Fall-Dashboard · Match-Talents-Plattform',
+  'dashboard.title': 'Fall-Dashboard · Match Talents Plattform',
   'dashboard.eyebrow': 'HR · Ansicht 4',
   'dashboard.heading': 'Fall-Dashboard',
   'dashboard.lead': 'Ein Ort für den ganzen Auftrag: Anforderungen, Talente, Antworten und Freigabe – mit genau einem klaren nächsten Schritt.',

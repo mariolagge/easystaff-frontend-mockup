@@ -10,8 +10,7 @@
 | Staffing request / staffing order | Personalanfrage, Auftrag | The client's need for staff: number of people, qualifications, timeframe and location. One request is one case. |
 | Case | Fall, Prozessinstanz | One run of the process for one staffing request. |
 | Requirements list | Anforderungsliste | Structured version of the staffing request (qualifications, location, timeframe) used by HR. |
-| Shortlist / final talents list | Shortlist, Endauswahl | The talents HR proposes to the client for approval. The German UI uses "Endauswahl". |
-| Customer approval | Kundenfreigabe, Freigabe | The client's yes/no decision on the shortlist (BPMN: "Request customer approval", "Check approval decision" → "Kundenfreigabe anfragen", "Freigabeentscheidung prüfen"). |
+| Shortlist / final talents list | Shortlist, Endauswahl | The talents HR proposes to the client for approval. |
 | Briefing | Briefing, Einsatzinformation | Job instructions sent to booked talents, and the confirmation sent to the client. |
 | Sales | Vertrieb | Department that receives client requests in the As-Is process. |
 | HR (Human resources) | Personalabteilung | Department that searches, checks and books talents. |

@@ -567,7 +567,6 @@ a:hover {
   justify-content: space-between;
   gap: 8px;
   padding: 13px 16px 10px;
-  border-bottom: 1px solid var(--border);
 }
 
 .card-title {
@@ -997,10 +996,6 @@ fieldset[aria-invalid="true"] .checkbox-grid {
   margin-bottom: 16px;
 }
 
-.start-disclaimer {
-  margin-top: 16px;
-}
-
 .role-cards {
   list-style: none;
   display: flex;
@@ -1103,7 +1098,6 @@ fieldset[aria-invalid="true"] .checkbox-grid {
 
 .job-card-head {
   padding: 18px 18px 14px;
-  border-bottom: 1px solid var(--border);
   background: linear-gradient(180deg, var(--wash-top) 0%, var(--wash-bottom) 100%);
   border-radius: var(--radius) var(--radius) 0 0;
 }
@@ -1323,10 +1317,15 @@ fieldset[aria-invalid="true"] .checkbox-grid {
   }
 }
 
-.flow-wrap {
+/* The wash covers the whole "Order status" card (start page and dashboard) so the
+   header matches the flow area. Selected by its content so both pages always match. */
+.card:has(> .flow-wrap) {
   background:
     radial-gradient(circle at 50% 28%, rgba(63, 94, 73, 0.02), transparent 55%),
     linear-gradient(180deg, var(--wash-top) 0%, var(--wash-bottom) 100%);
+}
+
+.flow-wrap {
   border-radius: 0 0 var(--radius) var(--radius);
   overflow: hidden;
 }
