@@ -1,6 +1,6 @@
 // Display text and value formatting. State holds raw values and keys; every label shown
 // for a status, availability, option or talent comes from js/i18n through the helpers
-// below. Task names follow the To-Be model (docs/images/to-be-process-model.png) and
+// below. Task names follow the To-Be model (images/to-be-process-model.png in the repo root) and
 // GLOSSARY.md.
 
 import { tablerIcon } from './icons.js';

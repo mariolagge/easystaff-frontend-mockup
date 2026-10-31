@@ -15,7 +15,7 @@ function renderProgress() {
     : statusLabel(state.status);
 }
 
-// KPI text is copied from docs/data/kpis.json → rendered.<lang> (SPEC C7).
+// KPI text is copied from data/kpis.json (repo root) → rendered.<lang> (SPEC C7).
 function renderKpi() {
   document.getElementById('kpi-line').innerHTML = `
     <span>${escapeHtml(t('start.kpiLabel'))}</span>

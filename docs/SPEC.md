@@ -30,7 +30,7 @@ Success criterion: a viewer without BPM knowledge can say, after one click-throu
 | C2 | No external requests: no CDNs, web fonts, analytics or images from other domains. Runs offline and on GitHub Pages. |
 | C3 | Languages of the UI: **German** (default) and **English**, switched with the "EN \| DE" control in the header without a reload. The choice is stored in `localStorage` under `matchTalentsLang`, separate from the demo case. All UI text lives in `js/i18n/de.js` and `js/i18n/en.js`; German uses formal "Sie" and the terms in `GLOSSARY.md`. |
 | C4 | Company name "easystaff" may appear as text. No original logo, colours or screenshots of easystaff. |
-| C5 | A banner on every page: **"Concept mockup – no real data"**, linking to the project repository on GitHub (`REPO_URL` in `js/seed.js`). |
+| C5 | A banner on every page: **"Concept mockup – no real data"**, linking to the disclaimer on the start page. |
 | C6 | All people, clients and addresses are fictional and obviously so (e.g. "Demo Client GmbH"). |
 | C7 | No KPI numbers are invented. If the mockup shows impact numbers, copy them from `docs/data/kpis.json` → `rendered.de` / `rendered.en` into the matching dictionary in `js/i18n/` (cycle time 6,9 → 3,3 Arbeitstage / 6.9 → 3.3 working days, −52 %). |
 | C8 | Works in current Chrome, Edge, Firefox and Safari; no console errors. |

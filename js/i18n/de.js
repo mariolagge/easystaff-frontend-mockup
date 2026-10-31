@@ -133,7 +133,7 @@ export default {
   'talent.t6.role': 'Eventpersonal',
   'talent.t6.profile': 'Leitet Backstage- und Catering-Teams.',
 
-  // Copied from docs/data/kpis.json → rendered.de (SPEC C7). Update by hand if that file changes.
+  // Copied from data/kpis.json (repo root) → rendered.de (SPEC C7). Update by hand if that file changes.
   'kpi.cycleTimeAsIs': '6,9 Arbeitstage',
   'kpi.cycleTimeToBe': '3,3 Arbeitstage',
   'kpi.cycleTimeChange': '−52 %',
